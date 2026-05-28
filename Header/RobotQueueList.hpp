@@ -5,30 +5,28 @@
 #include "Robot.hpp"
 using namespace std;
 
-class RobotQueue
+class RobotQueueList
 {
-    int front;
-    int rear;
-    int capacity;
+    Robot *front;
+    Robot *rear;
+    int currSize;
 
 public:
-    Robot *queue;
     int minLoad;
     string slowestRobot;
 
-    RobotQueue(int);
-    ~RobotQueue();
+    RobotQueueList(int);
+    ~RobotQueueList();
     bool isEmpty();
     bool isFull();
-    int getCapacity();
+    int getCurrSize();
     Robot createNewNode(string);
-    void enqueue(Robot &);
+    void enqueue(Robot *);
     Robot dequeue();
-    void moveNthFront(int);
+    void moveNthFront(Robot *);
     Robot peek();
     string getStatus(Robot);
     void displayQueue();
-    void setStatusByID(string, Status);
 };
 
 #endif

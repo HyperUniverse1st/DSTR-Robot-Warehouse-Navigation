@@ -63,7 +63,8 @@ void RobotList::insertAtTail(string ID)
 void RobotList::extendArray()
 {
     // Step 1. Create a new arr with one additional capacity
-    Robot *newArr = new Robot[++capacity];
+    capacity = capacity * 2;
+    Robot *newArr = new Robot[capacity];
 
     // Step 2. Deep copy from old arr to new arr
     for (int i = 0; i < tail; i++)

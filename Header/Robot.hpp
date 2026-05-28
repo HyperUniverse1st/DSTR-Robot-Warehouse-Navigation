@@ -38,6 +38,8 @@ struct Robot
     Status status;
     int workLoad;
     OrderNode *currOrder;
+    Robot *next;
+    Robot *prev;
 };
 
 #endif
