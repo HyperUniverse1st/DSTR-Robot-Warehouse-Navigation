@@ -1,16 +1,31 @@
 #include "../Header/RobotQueueList.hpp"
 
-RobotQueueList::RobotQueueList(int capacity)
+RobotQueueList::RobotQueueList()
 {
     front = rear = nullptr;
     minLoad = INT_MAX;
     slowestRobot = "";
-    currSize = 0;
+    size = 0;
 }
 
 RobotQueueList::~RobotQueueList()
 {
-    // TODO
+    Robot *temp = front;
+
+    while (true)
+    {
+        if (temp == rear)
+        {
+            break;
+        }
+
+        front = front->next;
+        delete temp;
+
+        temp = front;
+    }
+
+    delete temp;
 }
 
 bool RobotQueueList::isEmpty()
@@ -18,26 +33,21 @@ bool RobotQueueList::isEmpty()
     return front == nullptr;
 }
 
-bool RobotQueueList::isFull()
+int RobotQueueList::getsize()
 {
-    return rear->next == front;
+    return size;
 }
 
-int RobotQueueList::getCurrSize()
+Robot *RobotQueueList::createNewNode(string ID)
 {
-    return currSize;
-}
+    Robot *newRobot = new Robot();
 
-Robot RobotQueueList::createNewNode(string ID)
-{
-    Robot newRobot;
-
-    newRobot.ID = ID;
-    newRobot.status = AVAILABLE;
-    newRobot.workLoad = 0;
-    newRobot.currOrder = nullptr;
-    newRobot.next = nullptr;
-    newRobot.prev = nullptr;
+    newRobot->ID = ID;
+    newRobot->status = AVAILABLE;
+    newRobot->workLoad = 0;
+    newRobot->currOrder = nullptr;
+    newRobot->next = nullptr;
+    newRobot->prev = nullptr;
 
     return newRobot;
 }
@@ -45,13 +55,6 @@ Robot RobotQueueList::createNewNode(string ID)
 // Function to insert robot into queue
 void RobotQueueList::enqueue(Robot *robot)
 {
-    // If the queue is currently full, print error message and then return
-    if (isFull())
-    {
-        cout << "The queue is now full!" << endl;
-        return;
-    }
-
     // If the queue is currently empty, set front and rear to 0 index
     if (isEmpty())
     {
@@ -67,7 +70,7 @@ void RobotQueueList::enqueue(Robot *robot)
         rear = robot;
     }
 
-    currSize++;
+    size++;
 
     // If the current robot is the slowest robot, move to front
     if (robot->ID == slowestRobot)
@@ -80,17 +83,6 @@ void RobotQueueList::enqueue(Robot *robot)
 // Function to move Nth indexed robot to front as priority queue
 void RobotQueueList::moveNthFront(Robot *robot)
 {
-
-    // Reminder: robot is ALWAYS REAR
-    //  Case 1:
-    //   R1(front) -> R2 -> R3 -> R5 -> R4 (robot) (rear)
-    //   R1 (front) -> R2 -> R3 -> R5 (rear) -> R4 (robot)
-    //  R1 -> R2 -> R3 -> R5 -> R1      detached -- R4
-    //   R4(robot)(front) -> R1 -> R2 -> R3 -> R5(rear)
-
-    // Case 2:
-    //  R1 -> R2 (front) -> R3 -> R5 -> R4(robot) (rear)  //Print R2, R3, R5, R4
-    // R1- > R4 (robot) (front) -> R2 -> R3 -> R5 (rear) //Print R4,R2,R3,R5
 
     // Keep looping until the index is at front
     while (true)
@@ -130,59 +122,61 @@ void RobotQueueList::moveNthFront(Robot *robot)
 }
 
 // Function to remove first item in queue
-Robot RobotQueueList::dequeue()
+Robot *RobotQueueList::dequeue()
 {
     // If the queue is empty, print error message and return empty value
     if (isEmpty())
     {
         cout << "Queue underflow! The queue is currently empty.";
-        return Robot(); // Return default constructor value as "null" value
+        return nullptr;
     }
 
     // Store front value as temporary value
-    Robot temp = queue[front];
+    Robot *temp = front;
 
     // Check if end of queue
     if (front == rear)
     {
 
         // Set queue as empty
-        front = rear = -1;
+        front = rear = nullptr;
     }
     else
     {
-        // Else, increment front value and then bound the value based on capacity, using the modulo operator
-        // To enforce cycle in the queue
-        front = (front + 1) % capacity;
+        // Else, detach front from the queue, then set the next in line as front
+        rear->next = front->next;
+        front->next->prev = front->prev;
+
+        front = front->next;
     }
 
     // Decrease current element size
-    currSize--;
+    size--;
 
     // Return temp value
     return temp;
 }
 
 // Function to view first item
-Robot RobotQueueList::peek()
+Robot *RobotQueueList::peek()
 {
     // If queue is empty, display error message
     if (isEmpty())
     {
         cout << "The queue is currently empty.";
-        return Robot();
+        return nullptr;
     }
 
     // Else Return the first item
-    return queue[front];
+    return front;
 }
 
 // Function to convert the enum Status into string value
-string RobotQueueList::getStatus(Robot robot)
+string RobotQueueList::getStatus(Robot *robot)
 {
 
     // Switch case for enum since it's indexed
-    switch (robot.status)
+    switch (robot->status)
     {
     case 0:
         return "Available"; // First status
@@ -206,7 +200,7 @@ void RobotQueueList::displayQueue()
     }
 
     // Declare temp variable to hold front index
-    int temp = front;
+    Robot *temp = front;
 
     // Loop from front until rear
     while (true)
@@ -215,7 +209,7 @@ void RobotQueueList::displayQueue()
         // cout << "Robot ID: " << queue[temp].ID << endl
         //      << "Work Load: " << queue[temp].workLoad << endl;
 
-        cout << queue[temp].ID << " : " << temp << " : " << queue[temp].workLoad << " , ";
+        cout << temp->ID << " : " << temp->workLoad << " , ";
 
         // If temp is rear, break the loop
         if (temp == rear)
@@ -223,7 +217,23 @@ void RobotQueueList::displayQueue()
             break;
         }
 
-        // Increment temp by 1 with cycle
-        temp = (temp + 1) % capacity;
+        // Move temp to next value
+        temp = temp->next;
+    }
+}
+
+void RobotQueueList::setStatusByID(string ID, Status status)
+{
+    Robot *temp = front;
+    while (true)
+    {
+        if (temp->ID == ID)
+        {
+            temp->status = status;
+            return;
+        }
+        if (temp == rear)
+            break;
+        temp = temp->next;
     }
 }

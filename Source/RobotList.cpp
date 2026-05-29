@@ -2,9 +2,9 @@
 
 RobotList::RobotList(int capacity)
 {
-    head = tail = -1;
+    head = -1;
+    size = 0;
     this->capacity = capacity;
-    curr = 0;
     arr = new Robot[capacity];
 }
 
@@ -17,75 +17,76 @@ RobotList::~RobotList()
 Robot RobotList::createNewNode(string ID)
 {
 
-    // Step 1. Create a new Robot object
+    // Create a new Robot object
     Robot robot;
 
-    // Step 2. Initialise variables
+    // Initialise variables
     robot.ID = ID;
     robot.status = AVAILABLE;
     robot.workLoad = 0;
     robot.currOrder = nullptr;
 
-    // Step 3. Return value
+    // Return value
     return robot;
 }
 
+// Function to check if the array is currently empty
 bool RobotList::isEmpty()
 {
     return head == -1;
 }
 
-// TODO LIST:
-// 1. Complete Array Structure as master list
-// 2. Complete Circular Queue Structure
-// 3. If got time, complete min-heap structure for testing
-// 4. Test if I can pass in master list and queue as argument to update the queue
-// 5. Create 1000 order test and testing function for simulating working
-
-void RobotList::insertAtTail(string ID)
+// Function to insert robort at the end of the array
+void RobotList::insertAtEnd(string ID)
 {
-    Robot newNode = createNewNode(ID);
+    // Crete a new robot
+    Robot newRobot = createNewNode(ID);
 
-    if (curr == capacity)
+    // If the size has reached its capacity, extend current array
+    if (size == capacity)
     {
         extendArray();
     }
 
-    else if (isEmpty())
+    // If the array is empty, set head to 0
+    if (isEmpty())
     {
-        head = tail = 0;
+        head = 0;
     }
 
-    arr[tail++] = newNode;
+    // Insert new robot into array, then increment size vaue
+    arr[size++] = newRobot;
 }
 
 // Function to expand the capacity of the original arr
 void RobotList::extendArray()
 {
-    // Step 1. Create a new arr with one additional capacity
+    // Create a new arr with one additional capacity
     capacity = capacity * 2;
     Robot *newArr = new Robot[capacity];
 
-    // Step 2. Deep copy from old arr to new arr
-    for (int i = 0; i < tail; i++)
+    // Deep copy from old arr to new arr
+    for (int i = 0; i < size; i++)
     {
         newArr[i] = arr[i];
     }
 
-    // Step 3. Delete current array to free space
+    // Delete current array to free space
     delete[] arr;
 
-    // Step 4. Assign current array as new array
+    // Assign current array as new array
     arr = newArr;
 }
 
 int RobotList::getSize()
 {
-    return capacity;
+    return size;
 }
 
+// Function to convert Status enum in robot into string
 string RobotList::getStatus(Robot robot)
 {
+    // Switch case based on enum value
     switch (robot.status)
     {
     case 0:
@@ -100,20 +101,46 @@ string RobotList::getStatus(Robot robot)
     }
 }
 
+// Function to print all robots in the array
 void RobotList::displayList()
 {
 
-    for (int i = 0; i < capacity; i++)
+    // Print Table Header
+    cout << left << setw(5) << "No."
+         << setw(12) << "Robot ID"
+         << setw(20) << "Status"
+         << setw(16) << "Workload" << "\n";
+    cout << string(42, '-') << "\n";
+
+    // Print Table Rows
+    for (int i = 0; i < size; i++)
     {
-        cout << (i + 1) << ")" << setw(5) << "Robot ID: " << arr[i].ID << endl
-             << setw(8) << "Status: " << getStatus(arr[i]) << endl
-             << setw(8) << "Workload: " << arr[i].workLoad << endl;
+        cout << left << setw(5) << (i + 1)
+             << setw(12) << arr[i].ID
+             << setw(15) << getStatus(arr[i])
+             << setw(10) << arr[i].workLoad << "\n";
     }
 }
 
-int RobotList::getNextIndex()
+// Function to display short list of robots
+void RobotList::displayShortList()
 {
-    int temp = curr;
-    curr = (curr + 1) % capacity;
-    return temp;
+    // Loop through every element in the array
+    // Print only the Robot ID
+    for (int i = 0; i < size; i++)
+    {
+        cout << (i + 1) << ") Robot ID: " << arr[i].ID << endl;
+    }
+}
+
+// Setter method to modify status based on ID
+void RobotList::setStatusByID(string ID, Status newStatus)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i].ID == ID)
+        {
+            arr[i].status = newStatus;
+        }
+    }
 }

@@ -11,6 +11,7 @@
                 "../WarehouseTree.cpp",
                 "RobotList.cpp",
                 "RobotQueue.cpp",
+                "RobotQueueList.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

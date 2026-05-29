@@ -1,5 +1,5 @@
-#ifndef ROBOTQUEUE_HPP
-#define ROBOTQUEUE_HPP
+#ifndef ROBOTQUEUELIST_HPP
+#define ROBOTQUEUELIST_HPP
 #include <iostream>
 #include <iomanip>
 #include "Robot.hpp"
@@ -9,24 +9,25 @@ class RobotQueueList
 {
     Robot *front;
     Robot *rear;
-    int currSize;
+    int size;
 
 public:
     int minLoad;
     string slowestRobot;
 
-    RobotQueueList(int);
+    RobotQueueList();
     ~RobotQueueList();
     bool isEmpty();
     bool isFull();
-    int getCurrSize();
-    Robot createNewNode(string);
+    int getsize();
     void enqueue(Robot *);
-    Robot dequeue();
+    Robot *dequeue();
     void moveNthFront(Robot *);
-    Robot peek();
-    string getStatus(Robot);
+    Robot *peek();
+    string getStatus(Robot *);
+    Robot *createNewNode(string);
     void displayQueue();
+    void setStatusByID(string, Status);
 };
 
 #endif

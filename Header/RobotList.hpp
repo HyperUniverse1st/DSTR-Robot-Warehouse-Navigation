@@ -6,8 +6,7 @@ class RobotList
 {
 
     int head;
-    int tail;
-    int curr;
+    int size;
     int capacity;
 
 public:
@@ -17,11 +16,12 @@ public:
     bool isEmpty();
     Robot createNewNode(string);
     void extendArray();
-    void insertAtTail(string);
+    void insertAtEnd(string);
     int getSize();
     string getStatus(Robot);
     void displayList();
-    int getNextIndex();
+    void displayShortList();
+    void setStatusByID(string, Status);
 };
 
 #endif
