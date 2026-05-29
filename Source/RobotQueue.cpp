@@ -38,20 +38,6 @@ int RobotQueue::getsize()
     return size;
 }
 
-Robot *RobotQueue::createNewNode(string ID)
-{
-    Robot *newRobot = new Robot();
-
-    newRobot->ID = ID;
-    newRobot->status = AVAILABLE;
-    newRobot->workLoad = 0;
-    newRobot->currOrder = nullptr;
-    newRobot->next = nullptr;
-    newRobot->prev = nullptr;
-
-    return newRobot;
-}
-
 // Function to insert robot into queue
 void RobotQueue::enqueue(Robot *robot)
 {
@@ -75,7 +61,6 @@ void RobotQueue::enqueue(Robot *robot)
     // If the current robot is the slowest robot, move to front
     if (robot->ID == slowestRobot)
     {
-        displayQueue();
         moveNthFront(rear);
     }
 }
@@ -169,71 +154,4 @@ Robot *RobotQueue::peek()
 
     // Else Return the first item
     return front;
-}
-
-// Function to convert the enum Status into string value
-string RobotQueue::getStatus(Robot *robot)
-{
-
-    // Switch case for enum since it's indexed
-    switch (robot->status)
-    {
-    case 0:
-        return "Available"; // First status
-    case 1:
-        return "Maintenance"; // Second status
-    case 2:
-        return "Busy"; // Third status
-    default:
-        return "Error"; // Error handling
-    }
-}
-
-// Function to display queue
-void RobotQueue::displayQueue()
-{
-    // If queue is empty, display error message
-    if (isEmpty())
-    {
-        cout << "The queue is currently empty.";
-        return;
-    }
-
-    // Declare temp variable to hold front index
-    Robot *temp = front;
-
-    // Loop from front until rear
-    while (true)
-    {
-        // Print each robot details
-        // cout << "Robot ID: " << queue[temp].ID << endl
-        //      << "Work Load: " << queue[temp].workLoad << endl;
-
-        cout << temp->ID << " : " << temp->workLoad << " , ";
-
-        // If temp is rear, break the loop
-        if (temp == rear)
-        {
-            break;
-        }
-
-        // Move temp to next value
-        temp = temp->next;
-    }
-}
-
-void RobotQueue::setStatusByID(string ID, Status status)
-{
-    Robot *temp = front;
-    while (true)
-    {
-        if (temp->ID == ID)
-        {
-            temp->status = status;
-            return;
-        }
-        if (temp == rear)
-            break;
-        temp = temp->next;
-    }
 }

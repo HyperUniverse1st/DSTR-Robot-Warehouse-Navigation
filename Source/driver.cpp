@@ -9,6 +9,7 @@
 using namespace std;
 using namespace std::chrono;
 
+// Function to assign tasks to robot
 void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
 {
     cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
@@ -16,24 +17,16 @@ void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
     robot.status = BUSY;
     robot.workLoad++;
 
-    // After completion, enqueue back the robot
-    robot.status = AVAILABLE;
-    queue.enqueue(robot);
-}
+    //======================= TASK 3 CODE INSERT HERE =======================
 
-// Method Overloading for Linked List Implementation
-void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
-{
-    cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
-    robot.currOrder = order;
-    robot.status = BUSY;
-    robot.workLoad++;
+    //========================== END OF CODE ==================================
 
     // After completion, enqueue back the robot
     robot.status = AVAILABLE;
     queue.enqueue(&robot);
 }
 
+// Function to validate input
 void checkInput(int *option)
 {
     while (cin.fail())
@@ -47,20 +40,7 @@ void checkInput(int *option)
 }
 
 void robotSubMenu(RobotList &robotList);
-
-int selectStatusMenu()
-{
-    int option;
-
-    cout << "1. Available" << endl
-         << "2. Maintenance" << endl
-         << "3. Busy" << endl;
-    cout << "Please select a status to modify" << endl;
-    cin >> option;
-    checkInput(&option);
-
-    return option;
-}
+int selectStatusMenu();
 
 int main()
 {
@@ -176,24 +156,24 @@ void robotSubMenu(RobotList &robotList)
         break;
         case 2:
             // Display short lists of available robots
-            // Prompt for ID
-            // Modify the status
-
             cout << "\n----------------- List of Available Robots -----------------" << endl;
             robotList.displayShortList();
             cout << "Please select a robot: ";
-            cin >> selection;
+            cin >> selection; // Prompt user to select a robot
             checkInput(&selection);
 
+            // Display error message for invalid ID
             if (selection > robotList.getSize() || selection <= 0)
             {
                 cout << "Invalid robot selection.";
             }
-            else
+            else // Else, prompt for status selection
             {
+                // Store selected ID as string
                 int selectedID = selection;
                 string ID = "R" + to_string(selectedID);
 
+                // Get status selection and make it into 0-indexed
                 int option = selectStatusMenu() - 1;
 
                 Status chosenStatus;
@@ -221,7 +201,7 @@ void robotSubMenu(RobotList &robotList)
             break;
         case 3:
             cout << "\n----------------- List of Available Robots -----------------" << endl;
-            robotList.displayList();
+            robotList.displayList(); // Display the entire robot list
             break;
         case 4:
             cout << "Returning..." << endl;
@@ -232,4 +212,18 @@ void robotSubMenu(RobotList &robotList)
             break;
         }
     }
+}
+
+int selectStatusMenu()
+{
+    int option;
+
+    cout << "1. Available" << endl
+         << "2. Maintenance" << endl
+         << "3. Busy" << endl;
+    cout << "Please select a status to modify" << endl;
+    cin >> option;
+    checkInput(&option);
+
+    return option;
 }
