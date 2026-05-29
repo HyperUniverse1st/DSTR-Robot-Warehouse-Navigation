@@ -1,5 +1,5 @@
-#ifndef ROBOTQUEUE_HPP
-#define ROBOTQUEUE_HPP
+#ifndef ROBOTQUEUELIST_HPP
+#define ROBOTQUEUELIST_HPP
 #include <iostream>
 #include <iomanip>
 #include "Robot.hpp"
@@ -7,28 +7,23 @@ using namespace std;
 
 class RobotQueue
 {
-    int front;
-    int rear;
-    int capacity;
+    Robot *front;
+    Robot *rear;
+    int size;
 
 public:
-    Robot *queue;
     int minLoad;
     string slowestRobot;
 
-    RobotQueue(int);
+    RobotQueue();
     ~RobotQueue();
     bool isEmpty();
     bool isFull();
-    int getCapacity();
-    Robot createNewNode(string);
-    void enqueue(Robot &);
-    Robot dequeue();
-    void moveNthFront(int);
-    Robot peek();
-    string getStatus(Robot);
-    void displayQueue();
-    void setStatusByID(string, Status);
+    int getsize();
+    void enqueue(Robot *);
+    Robot *dequeue();
+    void moveNthFront(Robot *);
+    Robot *peek();
 };
 
 #endif

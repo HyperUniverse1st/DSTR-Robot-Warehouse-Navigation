@@ -2,7 +2,7 @@
 #include "../WarehouseTree.h"
 #include "../Header/RobotList.hpp"
 #include "../Header/RobotQueue.hpp"
-#include "../Header/RobotQueueList.hpp"
+#include "../Header/RobotQueue.hpp"
 #include <iostream>
 #include <limits>
 #include <chrono>
@@ -22,7 +22,7 @@ void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
 }
 
 // Method Overloading for Linked List Implementation
-void assignTask(OrderNode *order, Robot &robot, RobotQueueList &queue)
+void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
 {
     cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
     robot.currOrder = order;
@@ -62,109 +62,6 @@ int selectStatusMenu()
     return option;
 }
 
-// Array implementation : 3155 ms
-// int main()
-// {
-
-//     OrderManagement orderManagement;
-
-//     // Insert 100 dummy orders
-//     for (int i = 0; i < 100; i++)
-//     {
-//         orderManagement.addPendingOrder("test", "test", i + 1);
-//     }
-//     cout << endl
-//          << endl;
-
-//     // Initialise 5 robots
-//     RobotQueue *queue = new RobotQueue(10);
-
-//     // Initialise Robots into Queue
-//     for (int i = 0; i < 5; i++)
-//     {
-//         string ID = "R" + to_string(i + 1);
-//         Robot newRobot = queue->createNewNode(ID);
-//         queue->enqueue(newRobot);
-//     }
-
-//     int diffParameter = 5;
-
-//     string id1 = queue->queue[1].ID;
-//     string id2 = queue->queue[2].ID;
-
-//     queue->setStatusByID(id1, MAINTENANCE);
-//     queue->setStatusByID(id2, MAINTENANCE);
-
-//     int counter = 0;
-
-//     // Start timer
-//     auto start = steady_clock::now();
-
-//     while (!orderManagement.pendingQueue.isEmpty())
-//     {
-
-//         if (counter == 1000)
-//         {
-//             queue->setStatusByID(id1, AVAILABLE);
-//         }
-//         else if (counter == 6000)
-//         {
-//             queue->setStatusByID(id2, AVAILABLE);
-//         }
-
-//         // Dequeue first robot
-//         Robot currRobot = queue->dequeue();
-
-//         // Check the status
-//         // If available, assign task
-//         if (currRobot.status == AVAILABLE)
-//         {
-//             // If the current robot's workload is least, that means it's the slowest
-//             if (currRobot.workLoad < queue->minLoad)
-//             {
-//                 // Set the new workload as the new minLoad
-//                 queue->minLoad = currRobot.workLoad;
-
-//                 // Identify slowest robot
-//                 queue->slowestRobot = currRobot.ID;
-//             }
-
-//             // If the difference in workload with the next in line is between difference parameter,
-//             // Assume the workload is balanced, so reset slowest robot
-//             int diff = currRobot.workLoad - queue->peek().workLoad;
-//             bool isSame = currRobot.workLoad == queue->peek().workLoad;
-
-//             if ((currRobot.ID == queue->slowestRobot && diff >= diffParameter) || isSame)
-//             {
-//                 queue->minLoad = INT_MAX;
-//                 queue->slowestRobot = "";
-//             }
-
-//             // Get first pending order
-//             OrderNode *currOrder = orderManagement.assignToRobot();
-//             assignTask(currOrder, currRobot, *queue);
-//         }
-//         else
-//         {
-//             // Else, enqueue the robot back to "skip" its turn
-//             queue->enqueue(currRobot);
-//         }
-//         counter++;
-//     }
-
-//     // End Timer
-//     auto end = steady_clock::now();
-
-//     // Get Duration
-//     auto duration = duration_cast<milliseconds>(end - start);
-//     cout << "\n Time Taken for Array: " << duration.count() << " ms";
-
-//     // robotSubMenu(*queue);
-
-//     return 0;
-// }
-
-// LINKED LIST IMPLEMENTATION: 2509ms
 int main()
 {
 
@@ -178,9 +75,9 @@ int main()
     cout << endl
          << endl;
 
-    // Declare RobotList and RobotQueueList objects
+    // Declare RobotList and RobotQueue objects
     RobotList *robotList = new RobotList(2);
-    RobotQueueList *queue = new RobotQueueList();
+    RobotQueue *queue = new RobotQueue();
 
     // Initialise 10 robots in the RobotList
     for (int i = 0; i < 10; i++)
@@ -199,26 +96,8 @@ int main()
     // Declare difference parameter to identify acceptable difference range in workload
     int diffParameter = 5;
 
-    // Test Case: Set status into maintenance
-    robotList->setStatusByID(robotList->arr[1].ID, MAINTENANCE);
-    robotList->setStatusByID(robotList->arr[2].ID, MAINTENANCE);
-
-    int counter = 0;
-
-    // Start Timer
-    auto start = steady_clock::now();
-
     while (!orderManagement.pendingQueue.isEmpty())
     {
-
-        if (counter == 1000)
-        {
-            queue->setStatusByID(robotList->arr[1].ID, AVAILABLE);
-        }
-        else if (counter == 6000)
-        {
-            queue->setStatusByID(robotList->arr[2].ID, AVAILABLE);
-        }
 
         // Dequeue first robot
         Robot *currRobot = queue->dequeue();
@@ -257,16 +136,7 @@ int main()
             // Else, enqueue the robot back to "skip" its turn
             queue->enqueue(currRobot);
         }
-        counter++;
     }
-
-    // End Timer
-    auto end = steady_clock::now();
-
-    // Get duration
-    auto duration = duration_cast<milliseconds>(end - start);
-
-    cout << "\nTime Taken for Linked List: " << duration.count() << " ms";
 
     robotSubMenu(*robotList);
     return 0;

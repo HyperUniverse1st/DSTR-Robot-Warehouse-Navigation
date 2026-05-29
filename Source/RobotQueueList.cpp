@@ -1,6 +1,6 @@
-#include "../Header/RobotQueueList.hpp"
+#include "../Header/RobotQueue.hpp"
 
-RobotQueueList::RobotQueueList()
+RobotQueue::RobotQueue()
 {
     front = rear = nullptr;
     minLoad = INT_MAX;
@@ -8,7 +8,7 @@ RobotQueueList::RobotQueueList()
     size = 0;
 }
 
-RobotQueueList::~RobotQueueList()
+RobotQueue::~RobotQueue()
 {
     Robot *temp = front;
 
@@ -28,17 +28,17 @@ RobotQueueList::~RobotQueueList()
     delete temp;
 }
 
-bool RobotQueueList::isEmpty()
+bool RobotQueue::isEmpty()
 {
     return front == nullptr;
 }
 
-int RobotQueueList::getsize()
+int RobotQueue::getsize()
 {
     return size;
 }
 
-Robot *RobotQueueList::createNewNode(string ID)
+Robot *RobotQueue::createNewNode(string ID)
 {
     Robot *newRobot = new Robot();
 
@@ -53,7 +53,7 @@ Robot *RobotQueueList::createNewNode(string ID)
 }
 
 // Function to insert robot into queue
-void RobotQueueList::enqueue(Robot *robot)
+void RobotQueue::enqueue(Robot *robot)
 {
     // If the queue is currently empty, set front and rear to 0 index
     if (isEmpty())
@@ -81,7 +81,7 @@ void RobotQueueList::enqueue(Robot *robot)
 }
 
 // Function to move Nth indexed robot to front as priority queue
-void RobotQueueList::moveNthFront(Robot *robot)
+void RobotQueue::moveNthFront(Robot *robot)
 {
 
     // Keep looping until the index is at front
@@ -122,7 +122,7 @@ void RobotQueueList::moveNthFront(Robot *robot)
 }
 
 // Function to remove first item in queue
-Robot *RobotQueueList::dequeue()
+Robot *RobotQueue::dequeue()
 {
     // If the queue is empty, print error message and return empty value
     if (isEmpty())
@@ -158,7 +158,7 @@ Robot *RobotQueueList::dequeue()
 }
 
 // Function to view first item
-Robot *RobotQueueList::peek()
+Robot *RobotQueue::peek()
 {
     // If queue is empty, display error message
     if (isEmpty())
@@ -172,7 +172,7 @@ Robot *RobotQueueList::peek()
 }
 
 // Function to convert the enum Status into string value
-string RobotQueueList::getStatus(Robot *robot)
+string RobotQueue::getStatus(Robot *robot)
 {
 
     // Switch case for enum since it's indexed
@@ -190,7 +190,7 @@ string RobotQueueList::getStatus(Robot *robot)
 }
 
 // Function to display queue
-void RobotQueueList::displayQueue()
+void RobotQueue::displayQueue()
 {
     // If queue is empty, display error message
     if (isEmpty())
@@ -222,7 +222,7 @@ void RobotQueueList::displayQueue()
     }
 }
 
-void RobotQueueList::setStatusByID(string ID, Status status)
+void RobotQueue::setStatusByID(string ID, Status status)
 {
     Robot *temp = front;
     while (true)
