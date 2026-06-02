@@ -6,6 +6,7 @@ TreeNode::TreeNode(string n, string t) {
     type = t;
     firstChild = nullptr;
     nextSibling = nullptr;
+    parent = nullptr;
 }
 
 WarehouseTree::WarehouseTree() {
@@ -45,21 +46,28 @@ TreeNode* WarehouseTree::searchNode(TreeNode* node, string targetName) {
     return searchNode(node->nextSibling, targetName);
 }
 
-bool WarehouseTree::findPath(TreeNode* node, string targetName, string path) {
+bool WarehouseTree::buildPath(TreeNode* node, string targetName, string path, string& resultPath) {
     if (node == nullptr) return false;
 
-    string currentPath = path + " -> " + node->name;
+    string currentPath;
+
+    if (path == "") {
+        currentPath = node->name;
+    }
+    else {
+        currentPath = path + " -> " + node->name;
+    }
 
     if (node->name == targetName) {
-        cout << "Navigation Path: " << currentPath << endl;
+        resultPath = currentPath;
         return true;
     }
 
-    if (findPath(node->firstChild, targetName, currentPath)) {
+    if (buildPath(node->firstChild, targetName, currentPath, resultPath)) {
         return true;
     }
 
-    return findPath(node->nextSibling, targetName, path);
+    return buildPath(node->nextSibling, targetName, path, resultPath);
 }
 
 void WarehouseTree::addChild(TreeNode* parent, string childName, string childType) {
@@ -69,6 +77,7 @@ void WarehouseTree::addChild(TreeNode* parent, string childName, string childTyp
     }
 
     TreeNode* newNode = new TreeNode(childName, childType);
+    newNode->parent = parent;
 
     if (parent->firstChild == nullptr) {
         parent->firstChild = newNode;
@@ -82,6 +91,39 @@ void WarehouseTree::addChild(TreeNode* parent, string childName, string childTyp
 
         temp->nextSibling = newNode;
     }
+}
+
+TreeNode* WarehouseTree::findLocation(string locationName) {
+    return searchNode(root, locationName);
+}
+
+bool WarehouseTree::isValidLocation(string locationName) {
+    return findLocation(locationName) != nullptr;
+}
+
+bool WarehouseTree::isShelfLocation(string locationName) {
+    TreeNode* result = findLocation(locationName);
+    return result != nullptr && result->type == "Shelf";
+}
+
+string WarehouseTree::getPath(string locationName) {
+    string resultPath = "";
+
+    buildPath(root, locationName, "", resultPath);
+
+    return resultPath;
+}
+
+string WarehouseTree::getPathFromNode(TreeNode* node) {
+    if (node == nullptr) {
+        return "";
+    }
+
+    if (node->parent == nullptr) {
+        return node->name;
+    }
+
+    return getPathFromNode(node->parent) + " -> " + node->name;
 }
 
 void WarehouseTree::displayWarehouseLayout() {
@@ -104,9 +146,12 @@ void WarehouseTree::searchLocation(string locationName) {
 void WarehouseTree::showPath(string locationName) {
     cout << "\n===== Path Searching Result =====" << endl;
 
-    bool found = findPath(root, locationName, "");
+    string path = getPath(locationName);
 
-    if (!found) {
+    if (path == "") {
         cout << "No path found to " << locationName << endl;
+    }
+    else {
+        cout << "Navigation Path: " << path << endl;
     }
 }
