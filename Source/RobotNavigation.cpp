@@ -1,4 +1,4 @@
-﻿#include "RobotNavigation.hpp"
+#include "RobotNavigation.hpp"
 
 using namespace std;
 
@@ -443,7 +443,30 @@ void runGeneralTree(WarehouseTree& tree) {
     }
 }
 
+void robotNavigationMenu() {
+    while (true) {
+        cout << "\n=== MAIN MENU ===\n";
+        cout << "1. Binary Tree Navigation\n";
+        cout << "2. General Tree Navigation\n";
+        cout << "3. Exit\n";
+        cout << "Choice: ";
 
+        int choice;
+        cin >> choice;
+
+        if (choice == 1) {
+            BinaryTreeNode* root = buildTree();
+            runBinaryTree(root);
+        }
+        else if (choice == 2) {
+            WarehouseTree tree;
+            runGeneralTree(tree);
+        }
+        else {
+            break;
+        }
+    }
+}
 
 
 
