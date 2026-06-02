@@ -1,8 +1,8 @@
 // DSTR-Robot-Warehouse-Navigation.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include "WarehouseTree.h"
+#include "WarehouseTree.hpp"
+#include "RobotNavigation.hpp"
 
 int main()
 {
@@ -11,13 +11,13 @@ int main()
     // Task 5: Warehouse Layout and Navigation Module
     WarehouseTree warehouse;
 
-    TreeNode *root = warehouse.getRoot();
+    TreeNode* root = warehouse.getRoot();
 
     warehouse.addChild(root, "Zone A", "Zone");
     warehouse.addChild(root, "Zone B", "Zone");
 
-    TreeNode *zoneA = warehouse.getRoot()->firstChild;
-    TreeNode *zoneB = zoneA->nextSibling;
+    TreeNode* zoneA = warehouse.getRoot()->firstChild;
+    TreeNode* zoneB = zoneA->nextSibling;
 
     warehouse.addChild(zoneA, "Aisle A1", "Aisle");
     warehouse.addChild(zoneA, "Aisle A2", "Aisle");
@@ -25,11 +25,11 @@ int main()
     warehouse.addChild(zoneB, "Aisle B1", "Aisle");
     warehouse.addChild(zoneB, "Aisle B2", "Aisle");
 
-    TreeNode *aisleA1 = zoneA->firstChild;
-    TreeNode *aisleA2 = aisleA1->nextSibling;
+    TreeNode* aisleA1 = zoneA->firstChild;
+    TreeNode* aisleA2 = aisleA1->nextSibling;
 
-    TreeNode *aisleB1 = zoneB->firstChild;
-    TreeNode *aisleB2 = aisleB1->nextSibling;
+    TreeNode* aisleB1 = zoneB->firstChild;
+    TreeNode* aisleB2 = aisleB1->nextSibling;
 
     warehouse.addChild(aisleA1, "Shelf A1-S1", "Shelf");
     warehouse.addChild(aisleA1, "Shelf A1-S2", "Shelf");
@@ -80,6 +80,8 @@ int main()
             << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
     }
 
+    runGeneralTree(warehouse);
+
     return 0;
 }
 
@@ -93,3 +95,12 @@ int main()
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+//#include "RobotNavigation.hpp"
+
+//int main() {
+//    BinaryTreeNode* tree = buildTree();
+//    runBinaryTree(tree);
+//
+//    return 0;
+//}
