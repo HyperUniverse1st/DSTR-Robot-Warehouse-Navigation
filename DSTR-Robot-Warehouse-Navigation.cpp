@@ -70,6 +70,16 @@ int main()
         cout << "Route: " << routeForRobot << endl;
     }
 
+    const int MAX_PATH_NODES = 10;
+    TreeNode* pathNodes[MAX_PATH_NODES];
+    int pathCount = warehouse.getPathNodes(itemLocation, pathNodes, MAX_PATH_NODES);
+
+    cout << "\n===== Route Node Array for Task 3 =====" << endl;
+    for (int i = 0; i < pathCount; i++) {
+        cout << "pathNodes[" << i << "]: "
+            << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
+    }
+
     return 0;
 }
 

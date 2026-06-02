@@ -70,6 +70,25 @@ bool WarehouseTree::buildPath(TreeNode* node, string targetName, string path, st
     return buildPath(node->nextSibling, targetName, path, resultPath);
 }
 
+bool WarehouseTree::buildPathNodes(TreeNode* node, string targetName, TreeNode* pathNodes[], int depth, int maxSize, int& resultCount) {
+    if (node == nullptr) return false;
+
+    if (depth >= maxSize) return false;
+
+    pathNodes[depth] = node;
+
+    if (node->name == targetName) {
+        resultCount = depth + 1;
+        return true;
+    }
+
+    if (buildPathNodes(node->firstChild, targetName, pathNodes, depth + 1, maxSize, resultCount)) {
+        return true;
+    }
+
+    return buildPathNodes(node->nextSibling, targetName, pathNodes, depth, maxSize, resultCount);
+}
+
 void WarehouseTree::addChild(TreeNode* parent, string childName, string childType) {
     if (parent == nullptr) {
         cout << "Parent location not found." << endl;
@@ -112,6 +131,18 @@ string WarehouseTree::getPath(string locationName) {
     buildPath(root, locationName, "", resultPath);
 
     return resultPath;
+}
+
+int WarehouseTree::getPathNodes(string locationName, TreeNode* pathNodes[], int maxSize) {
+    int resultCount = 0;
+
+    if (pathNodes == nullptr || maxSize <= 0) {
+        return 0;
+    }
+
+    buildPathNodes(root, locationName, pathNodes, 0, maxSize, resultCount);
+
+    return resultCount;
 }
 
 string WarehouseTree::getPathFromNode(TreeNode* node) {
