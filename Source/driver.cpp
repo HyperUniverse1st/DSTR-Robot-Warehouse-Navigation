@@ -134,7 +134,7 @@ void robotSubMenu(RobotList &robotList)
         cout << "2. Modify Robot Status" << endl;
         cout << "3. View Robot Details" << endl;
         cout << "4. Back" << endl;
-
+        cout << "Please select an option: ";
         cin >> choice;
         checkInput(&choice);
 

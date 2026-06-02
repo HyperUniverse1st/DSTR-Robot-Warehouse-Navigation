@@ -270,7 +270,7 @@ void displayMenu(OrderManagement &orderManagement)
 		cout << "4. Display All Orders" << endl;
 		cout << "5. Display Order Summary" << endl;
 		cout << "6. Exit" << endl;
-
+		cout << "Please select an option: ";
 		cin >> choice;
 
 		if (cin.fail())
