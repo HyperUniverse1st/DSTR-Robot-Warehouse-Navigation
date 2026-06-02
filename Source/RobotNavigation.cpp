@@ -453,6 +453,7 @@ void robotNavigationMenu() {
 
         int choice;
         cin >> choice;
+        cin.ignore();
 
         if (choice == 1) {
             BinaryTreeNode* root = buildTree();
