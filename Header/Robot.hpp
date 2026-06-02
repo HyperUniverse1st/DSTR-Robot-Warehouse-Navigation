@@ -2,28 +2,8 @@
 #define ROBOT_HPP
 #include <iostream>
 #include <iomanip>
+#include "Order.hpp"
 using namespace std;
-
-// Order Node Structure
-struct OrderNode
-{
-    int orderId;
-    string customerName;
-    string itemList;
-    string status; //""Pending"", ""Processing"", ""Completed""
-    double orderAmount;
-    OrderNode *next;
-
-    OrderNode(int id, string name, string items, double amount)
-    {
-        orderId = id;
-        customerName = name;
-        itemList = items;
-        status = "Pending";
-        orderAmount = amount;
-        next = nullptr;
-    }
-};
 
 enum Status
 {

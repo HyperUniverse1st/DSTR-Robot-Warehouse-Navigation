@@ -13,7 +13,7 @@ class RobotQueue
 
 public:
     int minLoad;
-    string slowestRobot;
+    string leastLoadedRobot;
 
     RobotQueue();
     ~RobotQueue();

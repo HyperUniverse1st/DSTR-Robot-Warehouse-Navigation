@@ -78,9 +78,16 @@ void RobotList::extendArray()
     arr = newArr;
 }
 
+// Function to get current array size
 int RobotList::getSize()
 {
     return size;
+}
+
+// Function to get current current array capacity
+int RobotList::getCapacity()
+{
+    return capacity;
 }
 
 // Function to convert Status enum in robot into string
@@ -110,15 +117,15 @@ void RobotList::displayList()
          << setw(12) << "Robot ID"
          << setw(20) << "Status"
          << setw(16) << "Workload" << "\n";
-    cout << string(42, '-') << "\n";
+    cout << string(60, '-') << "\n";
 
     // Print Table Rows
     for (int i = 0; i < size; i++)
     {
         cout << left << setw(5) << (i + 1)
              << setw(12) << arr[i].ID
-             << setw(15) << getStatus(arr[i])
-             << setw(10) << arr[i].workLoad << "\n";
+             << setw(20) << getStatus(arr[i])
+             << setw(16) << arr[i].workLoad << "\n";
     }
 }
 
