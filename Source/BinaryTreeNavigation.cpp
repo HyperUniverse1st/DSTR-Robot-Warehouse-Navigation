@@ -5,7 +5,6 @@ BinaryTreeNode::BinaryTreeNode(string val)
     data = val;
     left = NULL;
     right = NULL;
-    back = NULL;
 }
 
 bool nodeExists(BinaryTreeNode* root, string& target) {
@@ -58,20 +57,11 @@ BinaryTreeNode* buildTree()
     warehouse->left = zoneA;
     warehouse->right = zoneB;
 
-    zoneA->back = warehouse;
-    zoneB->back = warehouse;
-
     zoneA->left = a1;
     zoneA->right = a2;
 
-    a1->back = zoneA;
-    a2->back = zoneA;
-
     zoneB->left = b1;
     zoneB->right = b2;
-
-    b1->back = zoneB;
-    b2->back = zoneB;
 
     return warehouse;
 }
