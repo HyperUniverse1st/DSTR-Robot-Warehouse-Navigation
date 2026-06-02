@@ -47,9 +47,28 @@ int main()
 
     cout << endl;
 
-    warehouse.searchLocation("Shelf A1-S2");
+    string itemLocation = "Shelf A1-S2";
 
-    warehouse.showPath("Shelf A1-S2");
+    warehouse.searchLocation(itemLocation);
+
+    warehouse.showPath(itemLocation);
+
+    TreeNode* targetNode = warehouse.findLocation(itemLocation);
+    string routeForRobot = warehouse.getPath(itemLocation);
+
+    cout << "\n===== Task 4 Location Validation =====" << endl;
+    if (warehouse.isShelfLocation(itemLocation)) {
+        cout << itemLocation << " is a valid shelf location for storing an item." << endl;
+    }
+    else {
+        cout << itemLocation << " is not a valid shelf location." << endl;
+    }
+
+    cout << "\n===== Route Provided to Task 3 =====" << endl;
+    if (targetNode != nullptr) {
+        cout << "Target Node: " << targetNode->type << " - " << targetNode->name << endl;
+        cout << "Route: " << routeForRobot << endl;
+    }
 
     return 0;
 }

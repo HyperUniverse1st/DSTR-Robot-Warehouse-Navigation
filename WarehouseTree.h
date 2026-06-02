@@ -12,6 +12,7 @@ public:
     string type;
     TreeNode* firstChild;
     TreeNode* nextSibling;
+    TreeNode* parent;
 
     TreeNode(string n, string t);
 };
@@ -22,7 +23,7 @@ private:
 
     void displayTree(TreeNode* node, int level);
     TreeNode* searchNode(TreeNode* node, string targetName);
-    bool findPath(TreeNode* node, string targetName, string path);
+    bool buildPath(TreeNode* node, string targetName, string path, string& resultPath);
 
 public:
     WarehouseTree();
@@ -30,6 +31,16 @@ public:
     TreeNode* getRoot();
 
     void addChild(TreeNode* parent, string childName, string childType);
+
+    TreeNode* findLocation(string locationName);
+
+    bool isValidLocation(string locationName);
+
+    bool isShelfLocation(string locationName);
+
+    string getPath(string locationName);
+
+    string getPathFromNode(TreeNode* node);
 
     void displayWarehouseLayout();
 
