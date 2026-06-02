@@ -1,70 +1,11 @@
-#include "OrderQueue.cpp"
-#include "../WarehouseTree.h"
-#include "../Header/RobotList.hpp"
-#include "../Header/RobotQueue.hpp"
-#include "../Header/RobotQueue.hpp"
-#include <iostream>
-#include <limits>
-#include <chrono>
-using namespace std;
-using namespace std::chrono;
+#include "../Header/RobotService.hpp"
 
-// Function to assign tasks to robot
-void assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
-{
-    cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
-    robot.currOrder = order;
-    robot.status = BUSY;
-    robot.workLoad++;
-
-    //======================= TASK 3 CODE INSERT HERE =======================
-
-    //========================== END OF CODE ==================================
-
-    // After completion, enqueue back the robot
-    robot.status = AVAILABLE;
-    queue.enqueue(&robot);
-}
-
-// Function to validate input
-void checkInput(int *option)
-{
-    while (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input!" << endl;
-        cout << "Your Option: ";
-        cin >> *option;
-    }
-}
-
-void robotSubMenu(RobotList &robotList);
-int selectStatusMenu();
-
-int main()
+// Function to simulate robot task assignment
+void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotList *robotList)
 {
 
-    OrderManagement orderManagement;
-
-    // Insert 100 dummy orders
-    for (int i = 0; i < 10; i++)
-    {
-        orderManagement.addPendingOrder("test", "test", i + 1);
-    }
-    cout << endl
-         << endl;
-
-    // Declare RobotList and RobotQueue objects
-    RobotList *robotList = new RobotList(2);
+    // Declare RobotQueue objects
     RobotQueue *queue = new RobotQueue();
-
-    // Initialise 10 robots in the RobotList
-    for (int i = 0; i < 10; i++)
-    {
-        string ID = "R" + to_string(i + 1);
-        robotList->insertAtEnd(ID);
-    }
 
     // Insert all robots in the array into queue
     for (int i = 0; i < robotList->getSize(); i++)
@@ -76,6 +17,7 @@ int main()
     // Declare difference parameter to identify acceptable difference range in workload
     int diffParameter = 5;
 
+    // Loop while there is still pending order
     while (!orderManagement.pendingQueue.isEmpty())
     {
 
@@ -93,23 +35,28 @@ int main()
                 queue->minLoad = currRobot->workLoad;
 
                 // Identify slowest robot
-                queue->slowestRobot = currRobot->ID;
+                queue->leastLoadedRobot = currRobot->ID;
             }
 
             // If the difference in workload with the next in line is between difference parameter,
             // Assume the workload is balanced, so reset slowest robot
             int diff = currRobot->workLoad - queue->peek()->workLoad;
+
+            // Also check if the value next in line is the same
             bool isSame = currRobot->workLoad == queue->peek()->workLoad;
 
-            if ((currRobot->ID == queue->slowestRobot && diff >= diffParameter) || isSame)
+            if ((currRobot->ID == queue->leastLoadedRobot && diff >= diffParameter) || isSame)
             {
                 queue->minLoad = INT_MAX;
-                queue->slowestRobot = "";
+                queue->leastLoadedRobot = "";
             }
 
             // Get first pending order
-            OrderNode *currOrder = orderManagement.assignToRobot();
-            assignTask(currOrder, *currRobot, *queue);
+            OrderNode *pendingOrder = orderManagement.assignToRobot();
+
+            // Assign the pending order to the current robot
+            assignTask(pendingOrder, *currRobot, *queue);
+            completeOrder(orderManagement, *currRobot, *queue);
         }
         else
         {
@@ -117,17 +64,38 @@ int main()
             queue->enqueue(currRobot);
         }
     }
-
-    robotSubMenu(*robotList);
-    return 0;
 }
 
-void robotSubMenu(RobotList &robotList)
+// Function to assign tasks to robot
+void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
+{
+    cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
+    robot.currOrder = order;
+    robot.status = BUSY;
+    robot.workLoad++;
+
+    //======================= TASK 3 CODE INSERT HERE =======================
+
+    //========================== END OF CODE ==================================
+}
+
+// Function to handle order completion
+void RobotService::completeOrder(OrderManagement &orderManagement, Robot &robot, RobotQueue &queue)
+{
+    // After completion, enqueue back the robot
+    robot.status = AVAILABLE;
+    queue.enqueue(&robot);
+
+    // Set order as completed
+    orderManagement.completeOrder();
+}
+
+// Function to display submenu for robot services (CRUD)
+void RobotService::robotSubMenu(RobotList &robotList)
 {
     int choice;
     int selection;
-    bool isExit = false;
-    while (!isExit)
+    while (true)
     {
         cout << "\n----------------- Order Management System -----------------" << endl;
         cout << "1. Add New Robot" << endl;
@@ -205,8 +173,7 @@ void robotSubMenu(RobotList &robotList)
             break;
         case 4:
             cout << "Returning..." << endl;
-            isExit = true;
-            break;
+            return;
         default:
             cout << "Invalid choice. Please try again." << endl;
             break;
@@ -214,16 +181,30 @@ void robotSubMenu(RobotList &robotList)
     }
 }
 
-int selectStatusMenu()
+// Function to display robot status selection, then return option
+int RobotService::selectStatusMenu()
 {
     int option;
 
     cout << "1. Available" << endl
          << "2. Maintenance" << endl
          << "3. Busy" << endl;
-    cout << "Please select a status to modify" << endl;
+    cout << "Please select a status to modify: ";
     cin >> option;
     checkInput(&option);
 
     return option;
+}
+
+// Function to validate input
+void RobotService::checkInput(int *option)
+{
+    while (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input!" << endl;
+        cout << "Please select an option: ";
+        cin >> *option;
+    }
 }

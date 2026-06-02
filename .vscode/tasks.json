@@ -11,6 +11,12 @@
                 "../WarehouseTree.cpp",
                 "RobotList.cpp",
                 "RobotQueue.cpp",
+                "RobotService.cpp",
+                "InputToCSV.cpp",
+                "OrderManage.cpp",
+                "OrderOutput.cpp",
+                "OrderQueue.cpp",
+                "Search.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

@@ -4,7 +4,7 @@ RobotQueue::RobotQueue()
 {
     front = rear = nullptr;
     minLoad = INT_MAX;
-    slowestRobot = "";
+    leastLoadedRobot = "";
     size = 0;
 }
 
@@ -52,6 +52,7 @@ void RobotQueue::enqueue(Robot *robot)
         rear->next = robot;
         robot->prev = rear;
         robot->next = front;
+        front->prev = robot;
 
         rear = robot;
     }
@@ -59,7 +60,7 @@ void RobotQueue::enqueue(Robot *robot)
     size++;
 
     // If the current robot is the slowest robot, move to front
-    if (robot->ID == slowestRobot)
+    if (robot->ID == leastLoadedRobot)
     {
         moveNthFront(rear);
     }
@@ -69,40 +70,36 @@ void RobotQueue::enqueue(Robot *robot)
 void RobotQueue::moveNthFront(Robot *robot)
 {
 
-    // Keep looping until the index is at front
-    while (true)
+    // If the robot is already front, break the loop
+    if (robot == front)
     {
+        return;
+    }
 
-        // If the robot is already front, break the loop
-        if (robot == front)
-        {
-            break;
-        }
+    // Since robot is always rear, move rear to the previous value
+    rear = robot->prev;
 
-        // Since robot is always rear, move rear to the previous value
-        rear = robot->prev;
+    // If robot next is front, just make robot as front, else swap pointers
+    if (robot->next == front)
+    {
+        front = robot;
+    }
+    else
+    {
+        // Swap the pointer locations to move robot to the front
+        // Detach robot from the list
+        robot->prev->next = robot->next;
+        robot->next->prev = robot->prev;
 
-        // If robot next is front, just make robot as front, else swap pointers
-        if (robot->next == front)
-        {
-            front = robot;
-        }
-        else
-        {
-            // Swap the pointer locations to move robot to the front
-            // Detach robot from the list
-            robot->prev->next = robot->next;
+        // Insert robot at front
+        robot->next = front;
+        front->prev->next = robot;
 
-            // Insert robot at front
-            robot->next = front;
-            front->prev->next = robot;
+        robot->prev = front->prev;
+        front->prev = robot;
 
-            robot->prev = front->prev;
-            front->prev = robot;
-
-            // Make robot as front
-            front = robot;
-        }
+        // Make robot as front
+        front = robot;
     }
 }
 

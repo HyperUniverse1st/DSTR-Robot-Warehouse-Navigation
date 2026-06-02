@@ -18,6 +18,7 @@ public:
     void extendArray();
     void insertAtEnd(string);
     int getSize();
+    int getCapacity();
     string getStatus(Robot);
     void displayList();
     void displayShortList();
