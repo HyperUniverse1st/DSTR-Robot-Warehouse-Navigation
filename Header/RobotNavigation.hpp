@@ -7,7 +7,7 @@
 #include <chrono>
 
 #include "BinaryTreeNavigation.hpp"
-#include "WarehouseTree.hpp"
+#include "WarehouseTree.h"
 #include "StackNavigation.hpp"
 
 void runBinaryTree(BinaryTreeNode* root);
