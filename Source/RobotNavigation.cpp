@@ -531,8 +531,9 @@ void robotNavigationMenu()
         }
         else if (choice == 2)
         {
-            WarehouseTree tree;
-            runGeneralTree(tree);
+            WarehouseTree warehouse;
+            warehouse = warehouse.createDefaultWarehouse();
+            runGeneralTree(warehouse);
         }
         else
         {

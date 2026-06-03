@@ -1,7 +1,7 @@
-#include "../Header/RobotService.hpp"
-#include "../Header/WarehouseTree.hpp"
+#include "../Header/Task2_RobotService.hpp"
 #include "../Header/RobotNavigation.hpp"
-#include "../Header/WarehouseSystem.hpp"
+#include "../Header/Task4_WarehouseSystem.hpp"
+#include "../Header/Task5_WarehouseTree.hpp"
 
 // Function to simulate robot task assignment
 void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotList *robotList, WarehouseTree &warehouse, DoublyLinkedList &itemList)
@@ -82,6 +82,7 @@ void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue,
 
     // Get Location and Path
     string itemLocation = itemList.getItemLocation(targetItem);
+    cout << "TESTT: " << itemLocation << endl;
     TreeNode *targetNode = warehouse.findLocation(itemLocation);
     string routeForRobot = warehouse.getPath(itemLocation);
 
@@ -102,7 +103,7 @@ void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue,
     TreeNode *root = warehouse.getRoot();
 
     // Print navigation
-    navigateGeneralTree(root, root, directStack, logStack, targetItem);
+    navigateGeneralTree(root, root, directStack, logStack, itemLocation);
 
     //========================== END OF CODE ==================================
 }

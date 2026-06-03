@@ -1,9 +1,9 @@
 
-#include "../Header/WarehouseSystem.hpp"
-#include "../Header/Order.hpp"
-#include "../Header/RobotList.hpp"
-#include "../Header/RobotService.hpp"
-#include "../Header/WarehouseTree.hpp"
+#include "../Header/Task4_WarehouseSystem.hpp"
+#include "../Header/Task1_Order.hpp"
+#include "../Header/Task2_RobotList.hpp"
+#include "../Header/Task2_RobotService.hpp"
+#include "../Header/Task5_WarehouseTree.hpp"
 #include "../Header/RobotNavigation.hpp"
 
 void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList, WarehouseTree &warehouse);
@@ -54,10 +54,11 @@ void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyL
 		cout << "\n----------------- Order Management System -----------------" << endl;
 		cout << "1. Order Management" << endl;
 		cout << "2. Robot Management" << endl;
-		cout << "3. Item Management" << endl;
-		cout << "4. Display Warehouse Layout" << endl;
-		cout << "5. Start order processing" << endl;
-		cout << "6. Exit" << endl;
+		cout << "3. Robot Navigation" << endl;
+		cout << "4. Item Management" << endl;
+		cout << "5. Display Warehouse Layout" << endl;
+		cout << "6. Start order processing" << endl;
+		cout << "7. Exit" << endl;
 		cout << "Please select an option: ";
 		cin >> choice;
 
@@ -82,15 +83,18 @@ void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyL
 			robotService.robotSubMenu(robotList);
 			break;
 		case 3:
-			menuItemManagement(itemList);
+			robotNavigationMenu();
 			break;
 		case 4:
-			warehouse.displayWarehouseLayout();
+			menuItemManagement(itemList);
 			break;
 		case 5:
-			robotService.simulateAssignment(orderManagement, &robotList, warehouse, itemList);
+			warehouse.displayWarehouseLayout();
 			break;
 		case 6:
+			robotService.simulateAssignment(orderManagement, &robotList, warehouse, itemList);
+			break;
+		case 7:
 			cout << "Exiting the program." << endl;
 			return;
 		default:
