@@ -59,7 +59,6 @@ private:
 public:
 	OrderQueue pendingQueue;
 	OrderManagement() {}
-
 	void addPendingOrder(string customerName, string itemList, double orderAmount);
 	OrderNode *assignToRobot();
 	OrderNode *getCurrentProcessingOrder();

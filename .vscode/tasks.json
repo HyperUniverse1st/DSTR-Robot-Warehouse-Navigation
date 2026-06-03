@@ -8,7 +8,7 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "../WarehouseTree.cpp",
+                "WarehouseTree.cpp",
                 "RobotList.cpp",
                 "RobotQueue.cpp",
                 "RobotService.cpp",
