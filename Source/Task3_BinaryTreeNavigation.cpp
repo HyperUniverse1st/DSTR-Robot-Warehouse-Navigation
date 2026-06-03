@@ -1,4 +1,4 @@
-#include "../Header/BinaryTreeNavigation.hpp"
+#include "../Header/Task3_BinaryTreeNavigation.hpp"
 
 BinaryTreeNode::BinaryTreeNode(string val)
 {
