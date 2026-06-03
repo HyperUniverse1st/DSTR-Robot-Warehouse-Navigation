@@ -1,5 +1,5 @@
 #include "../Header/Task2_RobotService.hpp"
-#include "../Header/RobotNavigation.hpp"
+#include "../Header/Task3_RobotNavigation.hpp"
 #include "../Header/Task4_WarehouseSystem.hpp"
 #include "../Header/Task5_WarehouseTree.hpp"
 
@@ -112,6 +112,7 @@ void RobotService::completeOrder(OrderManagement &orderManagement, Robot &robot,
 {
     // After completion, enqueue back the robot
     robot.status = AVAILABLE;
+    robot.currOrder = nullptr;
     queue.enqueue(&robot);
 
     // Set order as completed

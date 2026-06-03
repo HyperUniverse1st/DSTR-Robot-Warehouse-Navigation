@@ -116,16 +116,19 @@ void RobotList::displayList()
     cout << left << setw(5) << "No."
          << setw(12) << "Robot ID"
          << setw(20) << "Status"
-         << setw(16) << "Workload" << "\n";
-    cout << string(60, '-') << "\n";
+         << setw(16) << "Workload"
+         << setw(16) << "Currently Assigned Order" << "\n";
+    cout << string(100, '-') << "\n";
 
     // Print Table Rows
     for (int i = 0; i < size; i++)
     {
+        string currOrder = (arr[i].currOrder == nullptr) ? "No Order Assigned" : arr[i].currOrder->orderId;
         cout << left << setw(5) << (i + 1)
              << setw(12) << arr[i].ID
              << setw(20) << getStatus(arr[i])
-             << setw(16) << arr[i].workLoad << "\n";
+             << setw(16) << arr[i].workLoad
+             << setw(20) << currOrder << "\n";
     }
 }
 
