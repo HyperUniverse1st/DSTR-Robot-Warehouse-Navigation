@@ -24,6 +24,7 @@ private:
     void displayTree(TreeNode* node, int level);
     TreeNode* searchNode(TreeNode* node, string targetName);
     bool buildPath(TreeNode* node, string targetName, string path, string& resultPath);
+    bool buildPathNodes(TreeNode* node, string targetName, TreeNode* pathNodes[], int depth, int maxSize, int& resultCount);
 
 public:
     WarehouseTree();
@@ -39,6 +40,8 @@ public:
     bool isShelfLocation(string locationName);
 
     string getPath(string locationName);
+
+    int getPathNodes(string locationName, TreeNode* pathNodes[], int maxSize);
 
     string getPathFromNode(TreeNode* node);
 
