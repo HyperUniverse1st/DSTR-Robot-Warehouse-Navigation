@@ -6,34 +6,36 @@
 #include <string>
 using namespace std;
 
-class TreeNode {
+class TreeNode
+{
 public:
     string name;
     string type;
-    TreeNode* firstChild;
-    TreeNode* nextSibling;
-    TreeNode* parent;
+    TreeNode *firstChild;
+    TreeNode *nextSibling;
+    TreeNode *parent;
 
     TreeNode(string n, string t);
 };
 
-class WarehouseTree {
+class WarehouseTree
+{
 private:
-    TreeNode* root;
+    TreeNode *root;
 
-    void displayTree(TreeNode* node, int level);
-    TreeNode* searchNode(TreeNode* node, string targetName);
-    bool buildPath(TreeNode* node, string targetName, string path, string& resultPath);
-    bool buildPathNodes(TreeNode* node, string targetName, TreeNode* pathNodes[], int depth, int maxSize, int& resultCount);
+    void displayTree(TreeNode *node, int level);
+    TreeNode *searchNode(TreeNode *node, string targetName);
+    bool buildPath(TreeNode *node, string targetName, string path, string &resultPath);
+    bool buildPathNodes(TreeNode *node, string targetName, TreeNode *pathNodes[], int depth, int maxSize, int &resultCount);
 
 public:
     WarehouseTree();
 
-    TreeNode* getRoot();
+    TreeNode *getRoot();
 
-    void addChild(TreeNode* parent, string childName, string childType);
+    void addChild(TreeNode *parent, string childName, string childType);
 
-    TreeNode* findLocation(string locationName);
+    TreeNode *findLocation(string locationName);
 
     bool isValidLocation(string locationName);
 
@@ -41,15 +43,17 @@ public:
 
     string getPath(string locationName);
 
-    int getPathNodes(string locationName, TreeNode* pathNodes[], int maxSize);
+    int getPathNodes(string locationName, TreeNode *pathNodes[], int maxSize);
 
-    string getPathFromNode(TreeNode* node);
+    string getPathFromNode(TreeNode *node);
 
     void displayWarehouseLayout();
 
     void searchLocation(string locationName);
 
     void showPath(string locationName);
+
+    WarehouseTree createDefaultWarehouse();
 };
 
 #endif

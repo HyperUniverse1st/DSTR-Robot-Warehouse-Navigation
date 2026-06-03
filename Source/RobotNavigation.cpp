@@ -1,17 +1,22 @@
-#include "RobotNavigation.hpp"
+#include "../Header/RobotNavigation.hpp"
+#include "../Header/BinaryTreeNavigation.hpp"
 
 using namespace std;
 
-void delay() {
+void delay()
+{
     this_thread::sleep_for(chrono::milliseconds(1500));
 }
 
-TreeNode* findChild(TreeNode* parent, TreeNode* target) {
-    
-    TreeNode* child = parent->firstChild;
+TreeNode *findChild(TreeNode *parent, TreeNode *target)
+{
 
-    while (child != nullptr) {
-        if (child == target) {
+    TreeNode *child = parent->firstChild;
+
+    while (child != nullptr)
+    {
+        if (child == target)
+        {
             return child;
         }
         child = child->nextSibling;
@@ -21,20 +26,25 @@ TreeNode* findChild(TreeNode* parent, TreeNode* target) {
 
 string invertMove(string move)
 {
-    if (move == "LEFT") return "RIGHT";
-    if (move == "RIGHT") return "LEFT";
+    if (move == "LEFT")
+        return "RIGHT";
+    if (move == "RIGHT")
+        return "LEFT";
     return move;
 }
 
-string getReversePath(Stack stack) {
+string getReversePath(Stack stack)
+{
     string result = "";
     bool first = true;
 
-    while (!stack.isEmpty()) {
+    while (!stack.isEmpty())
+    {
         string move = stack.pop();
         move = invertMove(move);
 
-        if (!first) {
+        if (!first)
+        {
             result += " -> ";
         }
 
@@ -45,20 +55,24 @@ string getReversePath(Stack stack) {
     return result;
 }
 
-string getForwardPath(Stack stack) {
+string getForwardPath(Stack stack)
+{
     Stack temp;
     string result = "";
     bool first = true;
 
-    while (!stack.isEmpty()) {
+    while (!stack.isEmpty())
+    {
         temp.push(stack.pop());
     }
 
-    while (!temp.isEmpty()) {
+    while (!temp.isEmpty())
+    {
         string move = temp.pop();
         move = invertMove(move);
 
-        if (!first) {
+        if (!first)
+        {
             result += " -> ";
         }
 
@@ -69,58 +83,79 @@ string getForwardPath(Stack stack) {
     return result;
 }
 
-
-
-void printBinaryTree(BinaryTreeNode* node, BinaryTreeNode* robotNode, string prefix, bool isLast) {
-    if (node == nullptr) {
+void printBinaryTree(BinaryTreeNode *node, BinaryTreeNode *robotNode, string prefix, bool isLast)
+{
+    if (node == nullptr)
+    {
         return;
     }
 
-    if (prefix.empty()) {
-        if (node == robotNode) {
+    if (prefix.empty())
+    {
+        if (node == robotNode)
+        {
             cout << "[R:" << node->data << "]" << endl;
-        } else {
+        }
+        else
+        {
             cout << node->data << endl;
         }
-    } else {
+    }
+    else
+    {
         cout << prefix;
 
-        if (isLast) {
+        if (isLast)
+        {
             cout << "L_";
-        } else {
+        }
+        else
+        {
             cout << "|- ";
         }
 
-        if (node == robotNode) {
+        if (node == robotNode)
+        {
             cout << "[R:" << node->data << "]" << endl;
-        } else {
+        }
+        else
+        {
             cout << node->data << endl;
         }
     }
 
     string newPrefix;
 
-    if (prefix.empty()) {
+    if (prefix.empty())
+    {
         newPrefix = "    ";
-    } else if (isLast) {
+    }
+    else if (isLast)
+    {
         newPrefix = prefix + "    ";
-    } else {
+    }
+    else
+    {
         newPrefix = prefix + "|   ";
     }
 
-    if (node->left != nullptr) {
+    if (node->left != nullptr)
+    {
         printBinaryTree(node->left, robotNode, newPrefix, false);
     }
 
-    if (node->right != nullptr) {
+    if (node->right != nullptr)
+    {
         printBinaryTree(node->right, robotNode, newPrefix, true);
     }
 }
 
-bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pathStack, Stack& logStack, string targetName) {
-    if (current == nullptr) {
+bool navigateBinaryTree(BinaryTreeNode *current, BinaryTreeNode *root, Stack &pathStack, Stack &logStack, string targetName)
+{
+    if (current == nullptr)
+    {
         return false;
-    }    
+    }
 
     cout << "\n[FORWARD] Robot at: " << current->data << endl;
     logStack.push(current->data);
@@ -128,7 +163,8 @@ bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pa
     printBinaryTree(root, current, "", true);
     delay();
 
-    if (current->data == targetName) {
+    if (current->data == targetName)
+    {
 
         cout << "\n=== [ITEM FOUND] ===\n";
 
@@ -139,7 +175,8 @@ bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pa
         cout << getForwardPath(directForwardStack) << endl;
 
         cout << "Direct Reverse Path (Item -> Warehouse): ";
-        cout << getReversePath(directReverseStack) << "\n" << endl;
+        cout << getReversePath(directReverseStack) << "\n"
+             << endl;
 
         Stack logForwardStack = logStack;
         Stack logReverseStack = logStack;
@@ -153,10 +190,12 @@ bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pa
         return true;
     }
 
-    if (current->left) {
+    if (current->left)
+    {
         pathStack.push("LEFT");
 
-        if (navigateBinaryTree(current->left, root, pathStack, logStack, targetName)) {
+        if (navigateBinaryTree(current->left, root, pathStack, logStack, targetName))
+        {
             return true;
         }
 
@@ -168,10 +207,12 @@ bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pa
         pathStack.pop();
     }
 
-    if (current->right) {
+    if (current->right)
+    {
         pathStack.push("RIGHT");
 
-        if (navigateBinaryTree(current->right, root, pathStack, logStack, targetName)) {
+        if (navigateBinaryTree(current->right, root, pathStack, logStack, targetName))
+        {
             return true;
         }
 
@@ -185,9 +226,11 @@ bool navigateBinaryTree(BinaryTreeNode* current, BinaryTreeNode* root, Stack& pa
     return false;
 }
 
-void runBinaryTree(BinaryTreeNode* root) {
+void runBinaryTree(BinaryTreeNode *root)
+{
 
-    if (root == nullptr) {
+    if (root == nullptr)
+    {
         cout << "[ERROR] Leaf Me Alone...I Tried...You Are Barking Up The Wrong Tree >:D\n";
         return;
     }
@@ -199,7 +242,8 @@ void runBinaryTree(BinaryTreeNode* root) {
     cout << "Enter target item: ";
     getline(cin, targetName);
 
-    if (!nodeExists(root, targetName)) {
+    if (!nodeExists(root, targetName))
+    {
         cout << "[ERROR] '" << targetName << "' does not exist in the tree.\n";
         return;
     }
@@ -212,12 +256,11 @@ void runBinaryTree(BinaryTreeNode* root) {
     navigateBinaryTree(root, root, directStack, logStack, targetName);
 }
 
-
-
-//yes..i am losing my mind T-T
-void printGeneralTree(TreeNode* node, TreeNode* robotNode, string prefix, bool isLast)
+// yes..i am losing my mind T-T
+void printGeneralTree(TreeNode *node, TreeNode *robotNode, string prefix, bool isLast)
 {
-    if (node == nullptr) return;
+    if (node == nullptr)
+        return;
 
     if (prefix.empty())
     {
@@ -250,7 +293,7 @@ void printGeneralTree(TreeNode* node, TreeNode* robotNode, string prefix, bool i
     else
         newPrefix = prefix + "|   ";
 
-    TreeNode* child = node->firstChild;
+    TreeNode *child = node->firstChild;
 
     while (child != nullptr)
     {
@@ -262,8 +305,10 @@ void printGeneralTree(TreeNode* node, TreeNode* robotNode, string prefix, bool i
     }
 }
 
-bool navigateGeneralTree(TreeNode* current, TreeNode* root, Stack& directStack, Stack& logStack, string targetName) {
-    if (current == nullptr) {
+bool navigateGeneralTree(TreeNode *current, TreeNode *root, Stack &directStack, Stack &logStack, string targetName)
+{
+    if (current == nullptr)
+    {
         return false;
     }
 
@@ -275,7 +320,8 @@ bool navigateGeneralTree(TreeNode* current, TreeNode* root, Stack& directStack, 
     printGeneralTree(root, current, "", true);
     delay();
 
-    if (current->name == targetName) {
+    if (current->name == targetName)
+    {
         cout << "\n=== [ITEM FOUND] ===\n";
 
         Stack directForward = directStack;
@@ -293,11 +339,13 @@ bool navigateGeneralTree(TreeNode* current, TreeNode* root, Stack& directStack, 
         return true;
     }
 
-    TreeNode* child = current->firstChild;
+    TreeNode *child = current->firstChild;
 
-    while (child != nullptr) {
- 
-        if (navigateGeneralTree(child, root, directStack, logStack, targetName)) {
+    while (child != nullptr)
+    {
+
+        if (navigateGeneralTree(child, root, directStack, logStack, targetName))
+        {
             return true;
         }
 
@@ -315,26 +363,34 @@ bool navigateGeneralTree(TreeNode* current, TreeNode* root, Stack& directStack, 
     return false;
 }
 
-void navigateGeneralByPath(WarehouseTree& tree, TreeNode* root, Stack& directStack, Stack& logStack, string targetName) {
-    TreeNode* path[100];
+void navigateGeneralByPath(WarehouseTree &tree, TreeNode *root, Stack &directStack, Stack &logStack, string targetName)
+{
+    TreeNode *path[100];
 
     int count = tree.getPathNodes(targetName, path, 100);
 
-    if (count == 0) {
+    if (count == 0)
+    {
         cout << "Target not found.\n";
         return;
     }
 
-    TreeNode* current = path[0];
+    TreeNode *current = path[0];
 
-    for (int i = 0; i < count; i++) {
-        TreeNode* next = path[i];
+    for (int i = 0; i < count; i++)
+    {
+        TreeNode *next = path[i];
 
-        if (i == 0) {
+        if (i == 0)
+        {
             cout << "\n[START] Robot at: " << next->name << endl;
-        } else if (i == count - 1) {
+        }
+        else if (i == count - 1)
+        {
             cout << "\n[END] Robot moved to: " << next->name << endl;
-        } else {
+        }
+        else
+        {
             cout << "\n[FORWARD] Robot moved to: " << next->name << endl;
         }
 
@@ -348,13 +404,15 @@ void navigateGeneralByPath(WarehouseTree& tree, TreeNode* root, Stack& directSta
     }
 
     cout << "\n=== [ITEM FOUND] ===\n";
-    
+
     cout << "\nProvided Path: ";
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++)
+    {
         cout << path[i]->name;
 
-        if (i < count - 1) {
+        if (i < count - 1)
+        {
             cout << " -> ";
         }
     }
@@ -374,11 +432,13 @@ void navigateGeneralByPath(WarehouseTree& tree, TreeNode* root, Stack& directSta
     cout << "\nTotal Reverse Path: " << getReversePath(logReverse) << endl;
 }
 
-void runGeneralTree(WarehouseTree& tree) {
+void runGeneralTree(WarehouseTree &tree)
+{
 
-    TreeNode* root = tree.getRoot();
+    TreeNode *root = tree.getRoot();
 
-    if (root == nullptr) {
+    if (root == nullptr)
+    {
         cout << "[ERROR] General tree ... has been uprooted...literally...I am a very funny person...ya I know this message wont be seen but...yes..I saw the pun and went with it...why are you still reading this? >:D\n";
         return;
     }
@@ -387,21 +447,24 @@ void runGeneralTree(WarehouseTree& tree) {
 
     string targetName;
 
-    TreeNode* path[100];
+    TreeNode *path[100];
     int count = 0;
 
-    while (true) {
+    while (true)
+    {
         cout << "\nEnter target item (or type EXIT to quit): ";
         getline(cin, targetName);
 
-        if (targetName == "EXIT") {
+        if (targetName == "EXIT")
+        {
             cout << "Exiting...\n";
             return;
         }
 
         count = tree.getPathNodes(targetName, path, 100);
 
-        if (count > 0) {
+        if (count > 0)
+        {
             break;
         }
         cout << "[ERROR] '" << targetName << "' does not exist in the tree.\n";
@@ -409,7 +472,8 @@ void runGeneralTree(WarehouseTree& tree) {
 
     int choice;
 
-    while (true) {
+    while (true)
+    {
         cout << "\n============\n";
 
         cout << "\nChoose method:\n";
@@ -421,30 +485,36 @@ void runGeneralTree(WarehouseTree& tree) {
 
         cout << "\n============\n";
 
-        if (choice == 1) {
+        if (choice == 1)
+        {
             Stack directStack;
             Stack logStack;
 
             navigateGeneralTree(root, root, directStack, logStack, targetName);
         }
-        else if (choice == 2) {
+        else if (choice == 2)
+        {
             Stack directStack;
             Stack logStack;
 
             navigateGeneralByPath(tree, root, directStack, logStack, targetName);
         }
-        else if (choice == 3) {
+        else if (choice == 3)
+        {
             cout << "Exiting...\n";
             break;
         }
-        else {
+        else
+        {
             cout << "[ERROR] Invalid choice. Try again.\n";
         }
     }
 }
 
-void robotNavigationMenu() {
-    while (true) {
+void robotNavigationMenu()
+{
+    while (true)
+    {
         cout << "\n=== MAIN MENU ===\n";
         cout << "1. Binary Tree Navigation\n";
         cout << "2. General Tree Navigation\n";
@@ -455,25 +525,19 @@ void robotNavigationMenu() {
         cin >> choice;
         cin.ignore();
 
-        if (choice == 1) {
-            BinaryTreeNode* root = buildTree();
+        if (choice == 1)
+        {
+            BinaryTreeNode *root = buildTree();
             runBinaryTree(root);
         }
-        else if (choice == 2) {
+        else if (choice == 2)
+        {
             WarehouseTree tree;
             runGeneralTree(tree);
         }
-        else {
+        else
+        {
             break;
         }
     }
 }
-
-
-
-
-
-
-
-
-

@@ -3,8 +3,10 @@
 #include "../Header/Order.hpp"
 #include "../Header/RobotList.hpp"
 #include "../Header/RobotService.hpp"
+#include "../Header/WarehouseTree.hpp"
+#include "../Header/RobotNavigation.hpp"
 
-void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList);
+void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList, WarehouseTree &warehouse);
 
 int main()
 {
@@ -32,12 +34,17 @@ int main()
 		robotList->insertAtEnd(ID);
 	}
 
-	displayMenu(orderManagement, *robotList, itemList);
+	// Task 5: Warehouse Layout and Navigation Module
+	WarehouseTree warehouse = warehouse.createDefaultWarehouse();
+	//==============================  End of Initialisation ==================================
+
+	// Display Menu
+	displayMenu(orderManagement, *robotList, itemList, warehouse);
 
 	return 0;
 }
 
-void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList)
+void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList, WarehouseTree &warehouse)
 {
 	int choice;
 	RobotService robotService;
@@ -48,8 +55,9 @@ void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyL
 		cout << "1. Order Management" << endl;
 		cout << "2. Robot Management" << endl;
 		cout << "3. Item Management" << endl;
-		cout << "4. Simulate assignment" << endl;
-		cout << "5. Exit" << endl;
+		cout << "4. Display Warehouse Layout" << endl;
+		cout << "5. Start order processing" << endl;
+		cout << "6. Exit" << endl;
 		cout << "Please select an option: ";
 		cin >> choice;
 
@@ -73,9 +81,12 @@ void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyL
 			menuItemManagement(itemList);
 			break;
 		case 4:
-			robotService.simulateAssignment(orderManagement, &robotList);
+			warehouse.displayWarehouseLayout();
 			break;
 		case 5:
+			robotService.simulateAssignment(orderManagement, &robotList, warehouse, itemList);
+			break;
+		case 6:
 			cout << "Exiting the program." << endl;
 			return;
 		default:

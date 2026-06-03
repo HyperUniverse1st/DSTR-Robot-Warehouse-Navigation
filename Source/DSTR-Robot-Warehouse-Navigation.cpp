@@ -1,8 +1,8 @@
 // DSTR-Robot-Warehouse-Navigation.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "WarehouseTree.hpp"
-#include "RobotNavigation.hpp"
+#include "../Header/WarehouseTree.hpp"
+#include "../Header/RobotNavigation.hpp"
 
 int main()
 {
@@ -11,13 +11,13 @@ int main()
     // Task 5: Warehouse Layout and Navigation Module
     WarehouseTree warehouse;
 
-    TreeNode* root = warehouse.getRoot();
+    TreeNode *root = warehouse.getRoot();
 
     warehouse.addChild(root, "Zone A", "Zone");
     warehouse.addChild(root, "Zone B", "Zone");
 
-    TreeNode* zoneA = warehouse.getRoot()->firstChild;
-    TreeNode* zoneB = zoneA->nextSibling;
+    TreeNode *zoneA = warehouse.getRoot()->firstChild;
+    TreeNode *zoneB = zoneA->nextSibling;
 
     warehouse.addChild(zoneA, "Aisle A1", "Aisle");
     warehouse.addChild(zoneA, "Aisle A2", "Aisle");
@@ -25,11 +25,11 @@ int main()
     warehouse.addChild(zoneB, "Aisle B1", "Aisle");
     warehouse.addChild(zoneB, "Aisle B2", "Aisle");
 
-    TreeNode* aisleA1 = zoneA->firstChild;
-    TreeNode* aisleA2 = aisleA1->nextSibling;
+    TreeNode *aisleA1 = zoneA->firstChild;
+    TreeNode *aisleA2 = aisleA1->nextSibling;
 
-    TreeNode* aisleB1 = zoneB->firstChild;
-    TreeNode* aisleB2 = aisleB1->nextSibling;
+    TreeNode *aisleB1 = zoneB->firstChild;
+    TreeNode *aisleB2 = aisleB1->nextSibling;
 
     warehouse.addChild(aisleA1, "Shelf A1-S1", "Shelf");
     warehouse.addChild(aisleA1, "Shelf A1-S2", "Shelf");
@@ -53,31 +53,35 @@ int main()
 
     warehouse.showPath(itemLocation);
 
-    TreeNode* targetNode = warehouse.findLocation(itemLocation);
+    TreeNode *targetNode = warehouse.findLocation(itemLocation);
     string routeForRobot = warehouse.getPath(itemLocation);
 
     cout << "\n===== Task 4 Location Validation =====" << endl;
-    if (warehouse.isShelfLocation(itemLocation)) {
+    if (warehouse.isShelfLocation(itemLocation))
+    {
         cout << itemLocation << " is a valid shelf location for storing an item." << endl;
     }
-    else {
+    else
+    {
         cout << itemLocation << " is not a valid shelf location." << endl;
     }
 
     cout << "\n===== Route Provided to Task 3 =====" << endl;
-    if (targetNode != nullptr) {
+    if (targetNode != nullptr)
+    {
         cout << "Target Node: " << targetNode->type << " - " << targetNode->name << endl;
         cout << "Route: " << routeForRobot << endl;
     }
 
     const int MAX_PATH_NODES = 10;
-    TreeNode* pathNodes[MAX_PATH_NODES];
+    TreeNode *pathNodes[MAX_PATH_NODES];
     int pathCount = warehouse.getPathNodes(itemLocation, pathNodes, MAX_PATH_NODES);
 
     cout << "\n===== Route Node Array for Task 3 =====" << endl;
-    for (int i = 0; i < pathCount; i++) {
+    for (int i = 0; i < pathCount; i++)
+    {
         cout << "pathNodes[" << i << "]: "
-            << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
+             << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
     }
 
     runGeneralTree(warehouse);
@@ -96,11 +100,11 @@ int main()
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
 
-//#include "RobotNavigation.hpp"
+// #include "RobotNavigation.hpp"
 
-//int main() {
-//    BinaryTreeNode* tree = buildTree();
-//    runBinaryTree(tree);
+// int main() {
+//     BinaryTreeNode* tree = buildTree();
+//     runBinaryTree(tree);
 //
-//    return 0;
-//}
+//     return 0;
+// }

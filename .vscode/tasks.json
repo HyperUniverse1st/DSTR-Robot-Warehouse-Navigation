@@ -17,6 +17,9 @@
                 "OrderOutput.cpp",
                 "OrderQueue.cpp",
                 "Search.cpp",
+                "StackNavigation.cpp",
+                "RobotNavigation.cpp",
+                "BinaryTreeNavigation.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

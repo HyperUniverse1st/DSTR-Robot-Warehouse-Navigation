@@ -1,7 +1,10 @@
 #include "../Header/RobotService.hpp"
+#include "../Header/WarehouseTree.hpp"
+#include "../Header/RobotNavigation.hpp"
+#include "../Header/WarehouseSystem.hpp"
 
 // Function to simulate robot task assignment
-void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotList *robotList)
+void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotList *robotList, WarehouseTree &warehouse, DoublyLinkedList &itemList)
 {
 
     // Declare RobotQueue objects
@@ -55,7 +58,7 @@ void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotLis
             OrderNode *pendingOrder = orderManagement.assignToRobot();
 
             // Assign the pending order to the current robot
-            assignTask(pendingOrder, *currRobot, *queue);
+            assignTask(pendingOrder, *currRobot, *queue, warehouse, itemList);
             completeOrder(orderManagement, *currRobot, *queue);
         }
         else
@@ -67,14 +70,54 @@ void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotLis
 }
 
 // Function to assign tasks to robot
-void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue)
+void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue, WarehouseTree &warehouse, DoublyLinkedList &itemList)
 {
-    cout << "Order ID: " << order->orderId << " is assigned to " << robot.ID << endl;
+    cout << "Order ID: " << order->orderId << " is assigned to Robot with ID: " << robot.ID << endl;
     robot.currOrder = order;
     robot.status = BUSY;
     robot.workLoad++;
 
     //======================= TASK 3 CODE INSERT HERE =======================
+
+    // Get Location
+    string itemLocation = itemList.getItemLocation(order->itemName);
+
+    warehouse.searchLocation(itemLocation);
+
+    warehouse.showPath(itemLocation);
+
+    TreeNode *targetNode = warehouse.findLocation(itemLocation);
+    string routeForRobot = warehouse.getPath(itemLocation);
+
+    cout << "\n===== Task 4 Location Validation =====" << endl;
+    if (warehouse.isShelfLocation(itemLocation))
+    {
+        cout << itemLocation << " is a valid shelf location for storing an item." << endl;
+    }
+    else
+    {
+        cout << itemLocation << " is not a valid shelf location." << endl;
+    }
+
+    cout << "\n===== Route Provided to Task 3 =====" << endl;
+    if (targetNode != nullptr)
+    {
+        cout << "Target Node: " << targetNode->type << " - " << targetNode->name << endl;
+        cout << "Route: " << routeForRobot << endl;
+    }
+
+    const int MAX_PATH_NODES = 10;
+    TreeNode *pathNodes[MAX_PATH_NODES];
+    int pathCount = warehouse.getPathNodes(itemLocation, pathNodes, MAX_PATH_NODES);
+
+    cout << "\n===== Route Node Array for Task 3 =====" << endl;
+    for (int i = 0; i < pathCount; i++)
+    {
+        cout << "pathNodes[" << i << "]: "
+             << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
+    }
+
+    runGeneralTree(warehouse);
 
     //========================== END OF CODE ==================================
 }
@@ -88,6 +131,9 @@ void RobotService::completeOrder(OrderManagement &orderManagement, Robot &robot,
 
     // Set order as completed
     orderManagement.completeOrder();
+
+    // Print completion message
+    cout << "Robot with ID: " << robot.ID << " has completed its order: " << robot.currOrder->orderId << endl;
 }
 
 // Function to display submenu for robot services (CRUD)

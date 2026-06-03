@@ -124,6 +124,38 @@ bool DoublyLinkedList::itemExists(string itemName)
 }
 
 // ==========================================
+// Get Item Location by Name
+// ==========================================
+string DoublyLinkedList::getItemLocation(string name)
+{
+    // Check if item exists
+    if (itemExists(name))
+    {
+        Node *temp = head;
+
+        // Loop through all nodes
+        while (temp != nullptr)
+        {
+
+            // If the item is found, return its location
+            if (temp->data.itemName == name)
+            {
+                return temp->data.location;
+            }
+            else
+            {
+                // Else move to next node
+                temp = temp->next;
+            }
+        }
+    }
+    else // Print error message if does not exist
+    {
+        cout << "Item not found.\n";
+    }
+}
+
+// ==========================================
 // SEARCH BY ID
 // ==========================================
 void DoublyLinkedList::searchByID(int id)

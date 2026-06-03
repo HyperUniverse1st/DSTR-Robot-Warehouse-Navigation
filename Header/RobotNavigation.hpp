@@ -7,11 +7,11 @@
 #include <chrono>
 
 #include "BinaryTreeNavigation.hpp"
-#include "WarehouseTree.h"
+#include "WarehouseTree.hpp"
 #include "StackNavigation.hpp"
 
-void runBinaryTree(BinaryTreeNode* root);
-void runGeneralTree(WarehouseTree& tree);
+void runBinaryTree(BinaryTreeNode *root);
+void runGeneralTree(WarehouseTree &tree);
 void robotNavigationMenu();
 
 #endif

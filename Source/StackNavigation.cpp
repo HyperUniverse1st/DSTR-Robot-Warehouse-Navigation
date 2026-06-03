@@ -1,16 +1,19 @@
-#include "StackNavigation.hpp"
+#include "../Header/StackNavigation.hpp"
 
-Stack::Stack() {
+Stack::Stack()
+{
     top = NULL;
 }
 
-bool Stack::isEmpty() {
+bool Stack::isEmpty()
+{
     return top == NULL;
 }
 
-void Stack::push(string x) {
+void Stack::push(string x)
+{
 
-    StackNode* temp = new StackNode();
+    StackNode *temp = new StackNode();
 
     temp->data = x;
     temp->next = top;
@@ -18,16 +21,18 @@ void Stack::push(string x) {
     top = temp;
 }
 
-string Stack::pop() {
+string Stack::pop()
+{
 
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         cout << "Stack Underflow\n";
         return "";
     }
 
     string val = top->data;
 
-    StackNode* temp = top;
+    StackNode *temp = top;
     top = top->next;
 
     delete temp;
@@ -35,7 +40,8 @@ string Stack::pop() {
     return val;
 }
 
-string Stack::peek() {
+string Stack::peek()
+{
 
     if (isEmpty())
         return "";
@@ -43,11 +49,13 @@ string Stack::peek() {
     return top->data;
 }
 
-void Stack::display() {
+void Stack::display()
+{
 
-    StackNode* current = top;
+    StackNode *current = top;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
 
         cout << current->data << endl;
 
@@ -55,19 +63,19 @@ void Stack::display() {
     }
 }
 
-Stack::Stack(const Stack& other)
+Stack::Stack(const Stack &other)
 {
     top = nullptr;
 
     if (other.top == nullptr)
         return;
 
-    StackNode* curr = other.top;
-    StackNode* reversed = nullptr;
+    StackNode *curr = other.top;
+    StackNode *reversed = nullptr;
 
     while (curr != nullptr)
     {
-        StackNode* node = new StackNode();
+        StackNode *node = new StackNode();
         node->data = curr->data;
         node->next = reversed;
         reversed = node;

@@ -227,3 +227,42 @@ void WarehouseTree::showPath(string locationName)
         cout << "Navigation Path: " << path << endl;
     }
 }
+
+WarehouseTree WarehouseTree::createDefaultWarehouse()
+{
+    WarehouseTree warehouse;
+
+    TreeNode *root = warehouse.getRoot();
+
+    warehouse.addChild(root, "Zone A", "Zone");
+    warehouse.addChild(root, "Zone B", "Zone");
+
+    TreeNode *zoneA = warehouse.getRoot()->firstChild;
+    TreeNode *zoneB = zoneA->nextSibling;
+
+    warehouse.addChild(zoneA, "Aisle A1", "Aisle");
+    warehouse.addChild(zoneA, "Aisle A2", "Aisle");
+
+    warehouse.addChild(zoneB, "Aisle B1", "Aisle");
+    warehouse.addChild(zoneB, "Aisle B2", "Aisle");
+
+    TreeNode *aisleA1 = zoneA->firstChild;
+    TreeNode *aisleA2 = aisleA1->nextSibling;
+
+    TreeNode *aisleB1 = zoneB->firstChild;
+    TreeNode *aisleB2 = aisleB1->nextSibling;
+
+    warehouse.addChild(aisleA1, "Shelf A1-S1", "Shelf");
+    warehouse.addChild(aisleA1, "Shelf A1-S2", "Shelf");
+
+    warehouse.addChild(aisleA2, "Shelf A2-S1", "Shelf");
+    warehouse.addChild(aisleA2, "Shelf A2-S2", "Shelf");
+
+    warehouse.addChild(aisleB1, "Shelf B1-S1", "Shelf");
+    warehouse.addChild(aisleB1, "Shelf B1-S2", "Shelf");
+
+    warehouse.addChild(aisleB2, "Shelf B2-S1", "Shelf");
+    warehouse.addChild(aisleB2, "Shelf B2-S2", "Shelf");
+
+    return warehouse;
+}

@@ -1,4 +1,4 @@
-#include "BinaryTreeNavigation.hpp"
+#include "../Header/BinaryTreeNavigation.hpp"
 
 BinaryTreeNode::BinaryTreeNode(string val)
 {
@@ -7,25 +7,30 @@ BinaryTreeNode::BinaryTreeNode(string val)
     right = NULL;
 }
 
-bool nodeExists(BinaryTreeNode* root, string& target) {
-    if (root == nullptr) {
+bool nodeExists(BinaryTreeNode *root, string &target)
+{
+    if (root == nullptr)
+    {
         return false;
     }
 
-    if (root->data == target) {
+    if (root->data == target)
+    {
         return true;
     }
 
     return nodeExists(root->left, target) || nodeExists(root->right, target);
 }
 
-void printBinaryTreeLayout(BinaryTreeNode* node, int level)
+void printBinaryTreeLayout(BinaryTreeNode *node, int level)
 {
-    if (node == nullptr) {
+    if (node == nullptr)
+    {
         return;
     }
 
-    for (int i = 0; i < level; i++) {
+    for (int i = 0; i < level; i++)
+    {
         cout << "  ";
     }
 
@@ -35,24 +40,24 @@ void printBinaryTreeLayout(BinaryTreeNode* node, int level)
     printBinaryTreeLayout(node->right, level + 1);
 }
 
-void displayBinaryTreeLayout(BinaryTreeNode* root)
+void displayBinaryTreeLayout(BinaryTreeNode *root)
 {
     cout << "\n===== Binary Tree Layout =====" << endl;
     printBinaryTreeLayout(root, 0);
 }
 
-BinaryTreeNode* buildTree()
+BinaryTreeNode *buildTree()
 {
-    BinaryTreeNode* warehouse = new BinaryTreeNode("Warehouse");
+    BinaryTreeNode *warehouse = new BinaryTreeNode("Warehouse");
 
-    BinaryTreeNode* zoneA = new BinaryTreeNode("Zone A");
-    BinaryTreeNode* zoneB = new BinaryTreeNode("Zone B");
+    BinaryTreeNode *zoneA = new BinaryTreeNode("Zone A");
+    BinaryTreeNode *zoneB = new BinaryTreeNode("Zone B");
 
-    BinaryTreeNode* a1 = new BinaryTreeNode("A1");
-    BinaryTreeNode* a2 = new BinaryTreeNode("A2");
+    BinaryTreeNode *a1 = new BinaryTreeNode("A1");
+    BinaryTreeNode *a2 = new BinaryTreeNode("A2");
 
-    BinaryTreeNode* b1 = new BinaryTreeNode("B1");
-    BinaryTreeNode* b2 = new BinaryTreeNode("B2");
+    BinaryTreeNode *b1 = new BinaryTreeNode("B1");
+    BinaryTreeNode *b2 = new BinaryTreeNode("B2");
 
     warehouse->left = zoneA;
     warehouse->right = zoneB;

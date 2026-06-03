@@ -1,5 +1,8 @@
 #include "../Header/RobotList.hpp"
 #include "../Header/RobotQueue.hpp"
+#include "../Header/WarehouseSystem.hpp"
+#include "../Header/WarehouseTree.hpp"
+
 #include <limits>
 #include <iostream>
 using namespace std;
@@ -8,10 +11,10 @@ class RobotService
 {
 public:
     // Function to simulate robot task assignment
-    void simulateAssignment(OrderManagement &, RobotList *);
+    void simulateAssignment(OrderManagement &, RobotList *, WarehouseTree &, DoublyLinkedList &);
 
     // Function to assign tasks to robot
-    void assignTask(OrderNode *, Robot &, RobotQueue &);
+    void assignTask(OrderNode *, Robot &, RobotQueue &, WarehouseTree &warehouse, DoublyLinkedList &);
 
     // Function to handle order completion
     void completeOrder(OrderManagement &, Robot &, RobotQueue &);
