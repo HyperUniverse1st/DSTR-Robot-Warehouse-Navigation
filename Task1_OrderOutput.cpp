@@ -1,5 +1,5 @@
-#include "../Header/Task4_WarehouseSystem.hpp"
-#include "../Header/Task1_Order.hpp"
+#include "Task4_WarehouseSystem.hpp"
+#include "Task1_Order.hpp"
 
 void inputOrders(OrderManagement &orderManagement, DoublyLinkedList &itemList)
 {

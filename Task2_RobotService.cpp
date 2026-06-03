@@ -1,7 +1,7 @@
-#include "../Header/Task2_RobotService.hpp"
-#include "../Header/Task3_RobotNavigation.hpp"
-#include "../Header/Task4_WarehouseSystem.hpp"
-#include "../Header/Task5_WarehouseTree.hpp"
+#include "Task2_RobotService.hpp"
+#include "Task3_RobotNavigation.hpp"
+#include "Task4_WarehouseSystem.hpp"
+#include "Task5_WarehouseTree.hpp"
 
 // Function to simulate robot task assignment
 void RobotService::simulateAssignment(OrderManagement &orderManagement, RobotList *robotList, WarehouseTree &warehouse, DoublyLinkedList &itemList)

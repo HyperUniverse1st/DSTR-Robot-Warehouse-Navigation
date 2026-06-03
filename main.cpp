@@ -1,10 +1,10 @@
 
-#include "../Header/Task4_WarehouseSystem.hpp"
-#include "../Header/Task1_Order.hpp"
-#include "../Header/Task2_RobotList.hpp"
-#include "../Header/Task2_RobotService.hpp"
-#include "../Header/Task5_WarehouseTree.hpp"
-#include "../Header/Task3_RobotNavigation.hpp"
+#include "Task4_WarehouseSystem.hpp"
+#include "Task1_Order.hpp"
+#include "Task2_RobotList.hpp"
+#include "Task2_RobotService.hpp"
+#include "Task5_WarehouseTree.hpp"
+#include "Task3_RobotNavigation.hpp"
 
 void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyLinkedList &itemList, WarehouseTree &warehouse);
 
@@ -15,7 +15,7 @@ int main()
 	RobotList *robotList = new RobotList(5);
 
 	// read the inventory from CSV file
-	itemList.loadFromCSV("Data/Item_Data.csv");
+	itemList.loadFromCSV("Item_Data.csv");
 
 	// Add sample order data
 	orderManagement.addPendingOrder("Lisa", "Football", 150.00);

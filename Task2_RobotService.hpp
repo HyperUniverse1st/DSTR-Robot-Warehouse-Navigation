@@ -1,7 +1,7 @@
-#include "../Header/Task2_RobotList.hpp"
-#include "../Header/Task2_RobotQueue.hpp"
-#include "../Header/Task4_WarehouseSystem.hpp"
-#include "../Header/Task5_WarehouseTree.hpp"
+#include "Task2_RobotList.hpp"
+#include "Task2_RobotQueue.hpp"
+#include "Task4_WarehouseSystem.hpp"
+#include "Task5_WarehouseTree.hpp"
 
 #include <limits>
 #include <iostream>
