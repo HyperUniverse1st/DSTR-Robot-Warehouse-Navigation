@@ -6,9 +6,9 @@
 #include <thread>
 #include <chrono>
 
-#include "BinaryTreeNavigation.hpp"
+#include "Task3_BinaryTreeNavigation.hpp"
 #include "Task5_WarehouseTree.hpp"
-#include "StackNavigation.hpp"
+#include "Task3_StackNavigation.hpp"
 
 bool navigateGeneralTree(TreeNode *current, TreeNode *root, Stack &directStack, Stack &logStack, string targetName);
 void runBinaryTree(BinaryTreeNode *root);
