@@ -82,7 +82,6 @@ void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue,
 
     // Get Location and Path
     string itemLocation = itemList.getItemLocation(targetItem);
-    cout << "TESTT: " << itemLocation << endl;
     TreeNode *targetNode = warehouse.findLocation(itemLocation);
     string routeForRobot = warehouse.getPath(itemLocation);
 

@@ -64,11 +64,9 @@ void displayOrderMenu(OrderManagement &orderManagement, DoublyLinkedList &itemLi
 	{
 		cout << "\n----------------- Order Management System -----------------" << endl;
 		cout << "1. Add New Order" << endl;
-		cout << "2. Assign Order to Robot (Process Order)" << endl;
-		cout << "3. Complete Order" << endl;
-		cout << "4. Display All Orders" << endl;
-		cout << "5. Display Order Summary" << endl;
-		cout << "6. Return" << endl;
+		cout << "2. Display All Orders" << endl;
+		cout << "3. Display Order Summary" << endl;
+		cout << "4. Return" << endl;
 		cout << "Please select an option: ";
 		cin >> choice;
 
@@ -86,18 +84,12 @@ void displayOrderMenu(OrderManagement &orderManagement, DoublyLinkedList &itemLi
 			inputOrders(orderManagement, itemList);
 			break;
 		case 2:
-			orderManagement.assignToRobot();
-			break;
-		case 3:
-			orderManagement.completeOrder();
-			break;
-		case 4:
 			orderManagement.displayAllOrders();
 			break;
-		case 5:
+		case 3:
 			orderManagement.displaySummary();
 			break;
-		case 6:
+		case 4:
 			cout << "Returning..." << endl;
 			return;
 		default:
