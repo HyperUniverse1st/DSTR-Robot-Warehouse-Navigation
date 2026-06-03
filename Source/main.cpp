@@ -68,6 +68,10 @@ void displayMenu(OrderManagement &orderManagement, RobotList &robotList, DoublyL
 			cout << "Invalid input. Please enter a number." << endl;
 			continue;
 		}
+		else
+		{
+			cin.ignore(10000, '\n');
+		}
 
 		switch (choice)
 		{

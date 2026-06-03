@@ -77,27 +77,13 @@ void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue,
     robot.status = BUSY;
     robot.workLoad++;
 
-    //======================= TASK 3 CODE INSERT HERE =======================
+    //======================= Module 3 Part =======================
+    string targetItem = order->itemName; // Get target item
 
-    // Get Location
-    string itemLocation = itemList.getItemLocation(order->itemName);
-
-    warehouse.searchLocation(itemLocation);
-
-    warehouse.showPath(itemLocation);
-
+    // Get Location and Path
+    string itemLocation = itemList.getItemLocation(targetItem);
     TreeNode *targetNode = warehouse.findLocation(itemLocation);
     string routeForRobot = warehouse.getPath(itemLocation);
-
-    cout << "\n===== Task 4 Location Validation =====" << endl;
-    if (warehouse.isShelfLocation(itemLocation))
-    {
-        cout << itemLocation << " is a valid shelf location for storing an item." << endl;
-    }
-    else
-    {
-        cout << itemLocation << " is not a valid shelf location." << endl;
-    }
 
     cout << "\n===== Route Provided to Task 3 =====" << endl;
     if (targetNode != nullptr)
@@ -110,14 +96,13 @@ void RobotService::assignTask(OrderNode *order, Robot &robot, RobotQueue &queue,
     TreeNode *pathNodes[MAX_PATH_NODES];
     int pathCount = warehouse.getPathNodes(itemLocation, pathNodes, MAX_PATH_NODES);
 
-    cout << "\n===== Route Node Array for Task 3 =====" << endl;
-    for (int i = 0; i < pathCount; i++)
-    {
-        cout << "pathNodes[" << i << "]: "
-             << pathNodes[i]->type << " - " << pathNodes[i]->name << endl;
-    }
+    Stack directStack;
+    Stack logStack;
 
-    runGeneralTree(warehouse);
+    TreeNode *root = warehouse.getRoot();
+
+    // Print navigation
+    navigateGeneralTree(root, root, directStack, logStack, targetItem);
 
     //========================== END OF CODE ==================================
 }
@@ -134,6 +119,7 @@ void RobotService::completeOrder(OrderManagement &orderManagement, Robot &robot,
 
     // Print completion message
     cout << "Robot with ID: " << robot.ID << " has completed its order: " << robot.currOrder->orderId << endl;
+    cout << string(60, '=') << endl;
 }
 
 // Function to display submenu for robot services (CRUD)

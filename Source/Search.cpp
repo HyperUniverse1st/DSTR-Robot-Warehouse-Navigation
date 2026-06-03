@@ -152,7 +152,9 @@ string DoublyLinkedList::getItemLocation(string name)
     else // Print error message if does not exist
     {
         cout << "Item not found.\n";
+        return "";
     }
+    return "";
 }
 
 // ==========================================

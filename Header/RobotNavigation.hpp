@@ -10,6 +10,7 @@
 #include "WarehouseTree.hpp"
 #include "StackNavigation.hpp"
 
+bool navigateGeneralTree(TreeNode *current, TreeNode *root, Stack &directStack, Stack &logStack, string targetName);
 void runBinaryTree(BinaryTreeNode *root);
 void runGeneralTree(WarehouseTree &tree);
 void robotNavigationMenu();
